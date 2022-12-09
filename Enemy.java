@@ -2,33 +2,23 @@ import java.util.*;
 public class Enemy {
     //set monster weapon
     Random randy = new Random();
-    private int weaponBASE;
-    private int weaponDMG = weaponBASE + randy.nextInt(5);
+    private int weaponDMG;
     //set monster HP
     private int monsterHP;
 	String name;
 
-    Enemy(int weaponBASE, int monsterHP){
+    Enemy(int weaponDMG, int monsterHP){
         this.monsterHP = monsterHP;
-        this.weaponBASE = weaponBASE;
+        this.weaponDMG = weaponDMG;
     }
 
-	Enemy(int weaponBASE, int monsterHP, String name){
+	Enemy(int weaponDMG, int monsterHP, String name){
         this.monsterHP = monsterHP;
-        this.weaponBASE = weaponBASE;
+        this.weaponDMG = weaponDMG;
 		this.name = name;
     }
 
-    public int getWeaponBASE() {
-		return weaponBASE;
-	}
-
-
-	public void setWeaponBASE(int weaponBASE) {
-		this.weaponBASE = weaponBASE;
-	}
-
-    public int getMonsterHP() {
+	public int getMonsterHP() {
 		return monsterHP;
 	}
 
