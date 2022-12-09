@@ -9,8 +9,12 @@ public class Hero{
     private int fullHP = heroHP;
     //set damage
     private int swordDMG = 15;
-    //set block stange
+    /*set block stance
+    Blocking has not been integrated as there was 
+    no proper way to do so that would be fun for
+    the player. 
     private boolean blocking = false;
+    */
     //set heals
     private int healing = 3;
     //set key perices and key for unlocking dungeon door
@@ -62,7 +66,7 @@ public class Hero{
 		this.swordDMG = swordDMG;
 	}
 
-
+    /* 
 	public boolean isBlocking() {
 		return blocking;
 	}
@@ -71,7 +75,7 @@ public class Hero{
 	public void setBlocking(boolean blocking) {
 		this.blocking = blocking;
 	}
-
+   
     //methods to calculate damage taken to player
     public void damageRecieved(int dmgTaken){
         if(isBlocking()){
@@ -80,7 +84,11 @@ public class Hero{
         else
             setHeroHP(getHeroHP()-dmgTaken);
     }
+     */
     //methods for healing incombat
+    public static int getHealing(){
+        return healing;
+    }
     public void addHealing() {
         healing++;
     }
@@ -88,6 +96,10 @@ public class Hero{
     public void useHealing() {
         heroHP = fullHP;
         healing--;
+    }
+
+    public int getMaxHP(){
+        return fullHP;
     }
     //Key methods to interact with
     public void addKeyPiece(){
@@ -110,6 +122,16 @@ public class Hero{
         else{
             System.out.println("You do not have enough key peices to form a key for this gate");
         }
+    }
+    public static boolean hasBigKey(){
+        return hasKey;
+    }
+    //add and spend money
+    public void addMoney(int coinGained){
+        moneyGold = moneyGold + coinGained;
+    }
+    public void spendMoney(int itemCost){
+        monetGold = monetGold - itemCost;
     }
 
 }

@@ -3,11 +3,15 @@ import java.util.*;
 public class main {
 
     public Stack<Integer> checkPoint = new Stack<Integer>();
-    public ArrayList<String> inventory = new ArrayList<String>();
     public HashMap<Integer, String> doors = new HashMap<Integer, String>();
     public ArrayList<Integer> levelOneDoors = new ArrayList<Integer>();
     public ArrayList<Integer> levelTwoDoors = new ArrayList<Integer>();
     public ArrayList<Integer> levelThreeDoors = new ArrayList<Integer>();
+
+    //create player charater object
+    Hero player = new Hero(50);
+    //random number genrator for random money drop
+    Random randy = new Random();
 
     public void run() {
 
@@ -15,8 +19,6 @@ public class main {
         checkPoint.push(2);
         checkPoint.push(3);
         checkPoint.push(4);
-
-        inventory.add("10 gold");
 
         rooms();
         levelOne();
@@ -29,8 +31,7 @@ public class main {
 
         doors.put(1, "Enemy One");
         doors.put(2, "Enemy Two");
-        doors.put(3, "Miscellaneous");
-        doors.put(4, "Boss");
+        doors.put(3, "Boss");
 
         Random number = new Random();
         while (levelOneDoors.size() < 4) {
@@ -56,19 +57,6 @@ public class main {
 
     public void levelOne() {
 
-        boolean keyOne = false;
-        int keyPieces = 0;
-
-        enemy enemyOne = new enemy("Goblin", 10, 1);
-        enemy enemyTwo = new enemy("Big Goblin", 20, 1);
-        boss bossOne = new boss("Mimic", 50, false);
-
-        if (checkPoint.peek() == 3) {
-            enemyOne.setHp(0);
-            enemyTwo.setHp(0);
-            keyPieces = 2;
-        }
-
         for (Integer levelOneDoor : levelOneDoors) {
             System.out.print(doors.get(levelOneDoor) + "   ");
         }
@@ -79,25 +67,26 @@ public class main {
         Scanner keyboard = new Scanner(System.in);
         int doorChoice = keyboard.nextInt();
 
-        if (Objects.equals(doors.get(doorChoice), "Miscellaneous")) {
-            //code for misc room
-            System.out.println("Insert misc room description here.");
-            levelOne();
-        }
-
         if (Objects.equals(doors.get(doorChoice), "Enemy One")) {
 
             //setting and fight code for enemyOne
+            boolean win = method();
+            if(win){
+                //key pices and other things gold n stuff
+                int coinage = 20 + randy.nextInt(10);
+                System.out.println("You got a key peice and " + coinage + " gold coins!");
+                player.addKeyPiece();
+                player.addMoney(coinage);
 
-            if (enemyOne.getHp() <= 0) {
-                keyPieces += 1;
-                levelOneDoors.remove(doorChoice);
-            } else {
-                System.out.println("You died.");
             }
-            if (keyPieces >= 2) {
-                inventory.add("Key One");
-                keyOne = true;
+            if(!win){
+                System.out.println("You died.");
+                //set player paramerters back to normal (health)
+                player.setHeroHP(player.getMaxHP());
+            }
+            
+            //check peices to get big key
+            if (player.hasBigKey()) {
                 checkPoint.pop();
             }
             levelOne();
@@ -107,15 +96,24 @@ public class main {
 
             //setting and fight code for enemyTwo
 
-            if (enemyTwo.getHp() <= 0) {
-                keyPieces += 1;
-                levelOneDoors.remove(doorChoice);
-            } else {
-                System.out.println("You died.");
+            //setting and fight code for enemyOne
+            boolean win = method();
+            if(win){
+                //key pices and other things gold n stuff
+                int coinage = 20 + randy.nextInt(10);
+                System.out.println("You got a key peice and " + coinage + " gold coins!");
+                player.addKeyPiece();
+                player.addMoney(coinage);
+
             }
-            if (keyPieces >= 2) {
-                inventory.add("Key One");
-                keyOne = true;
+            if(!win){
+                System.out.println("You died.");
+                //set player paramerters back to normal (health)
+                player.setHeroHP(player.getMaxHP());
+            }
+            
+            //check peices to get big key
+            if (player.hasBigKey()) {
                 checkPoint.pop();
             }
             levelOne();
@@ -148,19 +146,6 @@ public class main {
 
     public void levelTwo() {
 
-        boolean keyTwo = false;
-        int keyPieces = 0;
-
-        enemy enemyThree = new enemy("Orc", 30, 1);
-        enemy enemyFour = new enemy("Big Orc", 40, 1);
-        boss bossTwo = new boss("Medusa", 100, false);
-
-        if (checkPoint.peek() == 2) {
-            enemyThree.setHp(0);
-            enemyFour.setHp(0);
-            keyPieces = 2;
-        }
-
         for (Integer levelTwoDoor : levelTwoDoors) {
             System.out.print(doors.get(levelTwoDoor) + "   ");
         }
@@ -171,25 +156,26 @@ public class main {
         Scanner keyboard = new Scanner(System.in);
         int doorChoice = keyboard.nextInt();
 
-        if (Objects.equals(doors.get(doorChoice), "Miscellaneous")) {
-            //code for misc room
-            System.out.println("Insert misc room description here.");
-            levelTwo();
-        }
-
         if (Objects.equals(doors.get(doorChoice), "Enemy One")) {
 
-            //setting and fight code for enemyThree
+            //setting and fight code for enemyOne
+            boolean win = method();
+            if(win){
+                //key pices and other things gold n stuff
+                int coinage = 20 + randy.nextInt(10);
+                System.out.println("You got a key peice and " + coinage + " gold coins!");
+                player.addKeyPiece();
+                player.addMoney(coinage);
 
-            if (enemyThree.getHp() <= 0) {
-                keyPieces += 1;
-                levelTwoDoors.remove(doorChoice);
-            } else {
-                System.out.println("You died.");
             }
-            if (keyPieces >= 2) {
-                inventory.add("Key Two");
-                keyTwo = true;
+            if(!win){
+                System.out.println("You died.");
+                //set player paramerters back to normal (health)
+                player.setHeroHP(player.getMaxHP());
+            }
+            
+            //check peices to get big key
+            if (player.hasBigKey()) {
                 checkPoint.pop();
             }
             levelTwo();
@@ -197,17 +183,24 @@ public class main {
 
         if (Objects.equals(doors.get(doorChoice), "Enemy Two")) {
 
-            //setting and fight code for enemyFour
+            //setting and fight code for enemyOne
+            boolean win = method();
+            if(win){
+                //key pices and other things gold n stuff
+                int coinage = 20 + randy.nextInt(10);
+                System.out.println("You got a key peice and " + coinage + " gold coins!");
+                player.addKeyPiece();
+                player.addMoney(coinage);
 
-            if (enemyFour.getHp() <= 0) {
-                keyPieces += 1;
-                levelTwoDoors.remove(doorChoice);
-            } else {
-                System.out.println("You died.");
             }
-            if (keyPieces >= 2) {
-                inventory.add("Key Two");
-                keyTwo = true;
+            if(!win){
+                System.out.println("You died.");
+                //set player paramerters back to normal (health)
+                player.setHeroHP(player.getMaxHP());
+            }
+            
+            //check peices to get big key
+            if (player.hasBigKey()) {
                 checkPoint.pop();
             }
             levelTwo();
@@ -241,19 +234,6 @@ public class main {
 
     public void levelThree() {
 
-        boolean keyThree = false;
-        int keyPieces = 0;
-
-        enemy enemyFive = new enemy("Minotaur", 50, 1);
-        enemy enemySix = new enemy("Big Minotaur", 60, 1);
-        boss bossThree = new boss("Cyclops", 150, false);
-
-        if (checkPoint.peek() == 1) {
-            enemyFive.setHp(0);
-            enemySix.setHp(0);
-            keyPieces = 2;
-        }
-
         for (Integer levelThreeDoor : levelThreeDoors) {
             System.out.print(doors.get(levelThreeDoor) + "   ");
         }
@@ -264,25 +244,26 @@ public class main {
         Scanner keyboard = new Scanner(System.in);
         int doorChoice = keyboard.nextInt();
 
-        if (Objects.equals(doors.get(doorChoice), "Miscellaneous")) {
-            //code for misc room
-            System.out.println("Insert misc room description here.");
-            levelThree();
-        }
-
         if (Objects.equals(doors.get(doorChoice), "Enemy One")) {
 
-            //setting and fight code for enemyFive
+            //setting and fight code for enemyOne
+            boolean win = method();
+            if(win){
+                //key pices and other things gold n stuff
+                int coinage = 20 + randy.nextInt(10);
+                System.out.println("You got a key peice and " + coinage + " gold coins!");
+                player.addKeyPiece();
+                player.addMoney(coinage);
 
-            if (enemyFive.getHp() <= 0) {
-                keyPieces += 1;
-                levelThreeDoors.remove(doorChoice);
-            } else {
-                System.out.println("You died.");
             }
-            if (keyPieces >= 2) {
-                inventory.add("Key Three");
-                keyThree = true;
+            if(!win){
+                System.out.println("You died.");
+                //set player paramerters back to normal (health)
+                player.setHeroHP(player.getMaxHP());
+            }
+            
+            //check peices to get big key
+            if (player.hasBigKey()) {
                 checkPoint.pop();
             }
             levelThree();
@@ -290,17 +271,24 @@ public class main {
 
         if (Objects.equals(doors.get(doorChoice), "Enemy Two")) {
 
-            //setting and fight code for enemySix
+            //setting and fight code for enemyOne
+            boolean win = method();
+            if(win){
+                //key pices and other things gold n stuff
+                int coinage = 20 + randy.nextInt(10);
+                System.out.println("You got a key peice and " + coinage + " gold coins!");
+                player.addKeyPiece();
+                player.addMoney(coinage);
 
-            if (enemySix.getHp() <= 0) {
-                keyPieces += 1;
-                levelThreeDoors.remove(doorChoice);
-            }  else {
-                System.out.println("You died.");
             }
-            if (keyPieces >= 2) {
-                inventory.add("Key Three");
-                keyThree = true;
+            if(!win){
+                System.out.println("You died.");
+                //set player paramerters back to normal (health)
+                player.setHeroHP(player.getMaxHP());
+            }
+            
+            //check peices to get big key
+            if (player.hasBigKey()) {
                 checkPoint.pop();
             }
             levelThree();
@@ -330,6 +318,69 @@ public class main {
 
         }
 
+    }
+
+    public static boolean combat(Enemy monster, Hero player){
+        while(monster.getMonsterHP() > 0){
+            //text before the fight
+			System.out.println("");
+            /*scan the line to determine player input and react from that input
+            b = use bow to damage enemy
+            s = use sword to damage enemy
+            h = heath potions
+            */
+			String combatInput = scan.nextLine();
+
+			if(combatInput.equals("s"))
+			{
+				System.out.println("You attack the monster dealing " + player.getSwordDMG() + " damage!");
+				monster.setMonsterHP(monster.getMonsterHP() - player.getSwordDMG());
+				System.out.println("Monster HP: " + monster.getMonsterHP());
+			}
+            if(combatInput.equals("b"))
+			{
+                //get damage for player turn so that it does not 
+                //change for the HP difference and popup text
+                int damageOUT = player.getBowDMG();
+				System.out.println("You attack the monster dealing" + damageOUT + " damage!");
+                monster.setMonsterHP(monster.getMonsterHP() - damageOUT);
+				System.out.println("Monster HP: " + monster.getMonsterHP());
+			}
+			if(combatInput.equals("h"))
+			{
+                if(player.getHealing() == 0){
+                    System.out.println("You have run out of healing potions! oh no....");
+                }
+				else if(player.getHeroHP() == player.getMaxHP())
+				{
+					System.out.println("You are at full health. You can't drink any health potions.");
+				}
+				else if(player.getHeroHP() < player.getMaxHP())
+				{
+					System.out.println("You drank a health potion.");
+					System.out.println("Hmmm... Tates like strawberries...");
+					System.out.println("HP fully restored!");
+					player.useHealing();
+				}
+			}
+			//monster attacking player
+			System.out.println("The monster swings its weapon with malicious intent. You block it with your sword but the swing knocks you back due to the force.");
+			//get damage for player turn so that it does not 
+            //change for the HP difference and popup text
+            int damageTAKEN = monster.getWeaponDMG();
+			System.out.println("You took " + damageTAKEN + " damage from the monster!");
+			player.setHeroHP(player.getHeroHP() - damageTAKEN);
+			System.out.println("Player HP:" + player.getHeroHP());
+
+			if(monster1HP<=0)//monster death notification
+			{
+				System.out.println("You defeated the monster!");
+				break;
+			}
+        }
+        if(player.getHeroHP <= 0)
+            return flase;
+        return true;
     }
 
 }
