@@ -30,9 +30,9 @@ public class main {
 
     public void rooms() {
 
-        doors.put(1, "Enemy One");
-        doors.put(2, "Enemy Two");
-        doors.put(3, "Boss");
+        doors.put(1, "A worn down wooden door with a sign above it that reads 'Not very scary'");
+        doors.put(2, "A metal door with a sign above it that reads 'Kind of scary'");
+        doors.put(3, "A reinforced polished steel door with a sign above it that reads 'Very scary'");
 
         Random number = new Random();
         while (levelOneDoors.size() < 4) {
@@ -62,86 +62,85 @@ public class main {
         // method used to output proper door choices for user and handle input exceptions in all cases
         int userDoorChoice = getUserDoorChoice(doors);
 
-        if (Objects.equals(doors.get(userDoorChoice), "Enemy One")){
+        if (Objects.equals(doors.get(userDoorChoice), "A worn down wooden door with a sign above it that reads 'Not very scary'")){
             levelOne();
         }
 
-        if (Objects.equals(doors.get(userDoorChoice), "Enemy Two")){
+        if (Objects.equals(doors.get(userDoorChoice), "A metal door with a sign above it that reads 'Kind of scary'")){
             levelTwo();
         }
 
-        if (Objects.equals(doors.get(userDoorChoice), "Boss")){
+        if (Objects.equals(doors.get(userDoorChoice), "A reinforced polished steel door with a sign above it that reads 'Very scary'")){
             levelThree();
         }
     }
 
     public void levelOne() {
-        // story
 
-
-        // combat(monster damange, monster health, player cahracter)
-        boolean level1Enemy1 = combat(5, 30, "Goblin", player);
-        
-        if (level1Enemy1) { //for a win
-            // resets players health and potions, and awards coins for winning 
-            whenPlayerWinsFightGeneralEnemy(player);
-        }
-        if (!level1Enemy1) {
-            System.out.println("You died.");
-            // reset player health to max and potion amount to 3
-            player.playerStatReset();
-            levelOne();
+        if (player.getKeyPieces() >= 3) {
+            System.out.println("Walking back inside you see the carnage left in your wake. There is nothing else to collect in here. You turn around and head back out.");
+            home();
         }
 
-        // check peices to get big key
-        if (player.getBigKey()) {
-            checkPoint.pop();
+        // check pieces to get big key
+        if (checkPoint.peek() == 3) {
+            player.setBigKey(true);
+            System.out.println("\nThe big level one baddie is in front of you. Fight!");
+        } else {
+            player.setBigKey(false);
+            // story
+            System.out.println("The wooden door creaks open loudly, almost falling off the hinges as you push it.");
+            System.out.println("As your eyes adjust to the dimly lit room, you see a figure before you.");
         }
-        
 
-        //the second fight in level one
-        if (player.getKeyPieces() >= 1) {
+        if (!player.getBigKey()) {
+            // combat(monster damage, monster health, player character)
+            boolean level1Enemy1 = combat(5, 5, "Goblin", player);
 
-            boolean level1Enemy2 = combat(7, 35, "Vampire", player);
-            if (level1Enemy2) {
+            if (level1Enemy1) { //for a win
                 // resets players health and potions, and awards coins for winning
                 whenPlayerWinsFightGeneralEnemy(player);
             }
-            if (!level1Enemy2) {
-                System.out.println("You died.");
-                // reset player health to max and potion amount to 3
-                player.playerStatReset();
-                levelOne();
+            if (!level1Enemy1) {
+                if(death()) {
+                    levelOne();
+                }
             }
-
-            // check peices to get big key
-            if (player.getBigKey()) {
-                checkPoint.pop();
-            }
-            
         }
 
-        //the level one boss fight
-        if (player.getKeyPieces() >= 2) {
+        //the second fight in level one
+        if (!player.getBigKey()) {
 
+            boolean level1Enemy2 = combat(7, 5, "Vampire", player);
+
+            if (level1Enemy2) {
+                // resets players health and potions, and awards coins for winning
+                checkPoint.pop();
+                whenPlayerWinsFightGeneralEnemy(player);
+            }
+            if (!level1Enemy2) {
+                if(death()) {
+                    levelOne();
+                }
+            }
+
+        } else {
             //boss fight for first room
-            boolean level1Boss = bossCombat("Boss1", 100, 15, player);
+            boolean level1Boss = bossCombat("Boss1", 5, 15, player);
             if (level1Boss) {
                 // resets players health and potions, and awards coins for winning
                 whenPlayerWinsFightGeneralEnemy(player);
             }
             if (!level1Boss) {
-                System.out.println("You died.");
-                // reset player health to max and potion amount to 3
-                player.playerStatReset();
-                levelOne();
+                if(death()) {
+                    levelOne();
+                }
             }
 
-            // check peices to get big key
+            // check pieces to get big key
             if (player.getKeyPieces() >= 3) {
                 home();
             }
-
         }
 
     }
@@ -161,7 +160,7 @@ public class main {
         // setting and fight code for enemyOne
         // combat(monster damange, monster health, player cahracter)
         boolean level2Enemy1 = combat(5, 30, "Goblin", player);
-        
+
         if (level2Enemy1) {
             // resets players health and potions, and awards coins for winning 
             whenPlayerWinsFightGeneralEnemy(player);
@@ -198,7 +197,7 @@ public class main {
             if (player.getBigKey()) {
                 checkPoint.pop();
             }
-            
+
         }
 
         //the level one boss fight
@@ -251,7 +250,7 @@ public class main {
             levelOne();
         }
 
-        
+
     }
 
     /*
@@ -278,7 +277,7 @@ public class main {
             {
                 System.out.println("Incorrect input: try again");
 
-                doorChoice = keyboard.nextLine(); 
+                doorChoice = keyboard.nextLine();
 
                 continue;
             }
@@ -300,16 +299,42 @@ public class main {
     }
     /*
      * Method used when player wins a fight to reset stats and award coins
-     * 
+     *
      */
-    public static void whenPlayerWinsFightGeneralEnemy(Hero player)
-    {
+    public static void whenPlayerWinsFightGeneralEnemy(Hero player) {
         Random randy = new Random();
         int coinage = 20 + randy.nextInt(20);
-        System.out.println("You got a key peice and " + coinage + " gold coins!");
+        System.out.println("You got a key piece and " + coinage + " gold coins!");
         player.addKeyPiece();
         player.addMoney(coinage);
         player.playerStatReset();
+    }
+
+    public boolean death() {
+        boolean contGame = false;
+        String continueGame = "";
+        Scanner input = new Scanner(System.in);
+        while (continueGame.equals("")) {
+            System.out.println("\nYou died...");
+            System.out.println("Continue? (Y/N)\n");
+            continueGame = input.nextLine();
+            if (continueGame.equalsIgnoreCase("Y")) {
+                System.out.println("\nHatching the dragon eggs...\n");
+                // reset player health to max and potion amount to 3
+                player.playerStatReset();
+                contGame = true;
+                return contGame;
+            }
+            else if (continueGame.equalsIgnoreCase("N")) {
+                System.out.println("\nThanks for playing!");
+                System.exit(0);
+            }
+            else {
+                System.out.println("\nInvalid input, please try again. (Enter Y or N)");
+                continueGame = "";
+            }
+        }
+        return contGame;
     }
 
     public static boolean combat(int monsterDMG, int monsterHP, String monsterName, Hero player) {
@@ -318,7 +343,7 @@ public class main {
 
         System.out.println("\nYou have entered combat with a " + monsterName + "!" + " (Health: " + monsterHP + ")");
 
-        while (monster.getMonsterHP() > 0) {
+        while (monster.getMonsterHP() > 0 && player.getHeroHP() > 0) {
             System.out.println("\nChoose your move:");
             System.out.print("S = use Sword to Attack, ");
             System.out.print("B = use Bow to Attack, ");
@@ -396,8 +421,8 @@ public class main {
             if (enemyAttackStrength == 1) {
                 System.out.println("\nThe " + monsterName+ " swings its weapon with malicious intent, but you block it with your sword.");
                 int damageTAKEN = monster.getWeaponDMG() - 15;
-                
-                if (damageTAKEN <= 0) 
+
+                if (damageTAKEN <= 0)
                 {
                     damageTAKEN = 0;
 
@@ -429,17 +454,17 @@ public class main {
         {
             return false;
         }
-        
+
         return true;
     }
 
-   public static boolean bossCombat(String bossName, int bossDMG, int bossHP, Hero player){
+    public static boolean bossCombat(String bossName, int bossDMG, int bossHP, Hero player){
         Boss boss = new Boss(bossName, bossDMG, bossHP);
         Random enemyAttackAdjust = new Random();
 
         System.out.println("\nYou have entered combat with a " + bossName + "!" + " (Health: " + bossHP + ")");
 
-        while (boss.getBossHP() > 0) {
+        while (boss.getBossHP() > 0 && player.getHeroHP() > 0) {
             System.out.println("\nChoose your move:");
             System.out.print("S = use Sword to Attack, ");
             System.out.print("B = use Bow to Attack, ");
@@ -517,8 +542,8 @@ public class main {
             if (enemyAttackStrength == 1) {
                 System.out.println("\nThe " + bossName + " swings its weapon with malicious intent, but you block it with your sword.");
                 int damageTAKEN = boss.getDMG() - 15;
-                
-                if (damageTAKEN <= 0) 
+
+                if (damageTAKEN <= 0)
                 {
                     damageTAKEN = 0;
 
@@ -550,17 +575,8 @@ public class main {
         {
             return false;
         }
-        
+
         return true;
     }
-    
+
 }
-
-
-
-
-
-    
-
-
-
