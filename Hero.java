@@ -13,7 +13,8 @@ public class Hero{
     private int healthPotions = 3;
     //set key pieces and key for unlocking dungeon door
     private int keyPieces = 0;
-    private boolean hasKey= false;
+    //boolean used to see if player has all pieces of key necessary
+    private boolean hasKey = false;
     //set starting amount of gold for player
     private int moneyGold = 30;
 
