@@ -59,6 +59,7 @@ public class main {
 
         System.out.println("");
 
+        // method used to output proper door choices for user and handle input exceptions in all cases
         int userDoorChoice = getUserDoorChoice(doors);
         
         if (Objects.equals(doors.get(userDoorChoice), "Enemy One")) {
@@ -66,80 +67,48 @@ public class main {
             // setting and fight code for enemyOne
             // combat(monster damange, monster health, player cahracter)
             boolean win = combat(5, 30, "Goblin", player);
+            
             if (win) {
-                // key pices and other things gold n stuff
-                int coinage = 20 + randy.nextInt(10);
-                System.out.println("You got a key piece and " + coinage + " gold coins!");
-                player.addKeyPiece();
-                player.addMoney(coinage);
-                player.playerStatReset();
-
+                // resets players health and potions, and awards coins for winning 
+                whenPlayerWinsFightGeneralEnemy(player);
             }
             if (!win) {
                 System.out.println("You died.");
-                // set player paramerters back to normal (health)
+                // reset player health to max and potion amount to 3
                 player.playerStatReset();
-            }
-
-            // check peices to get big key
-            if (player.hasBigKey()) {
-                checkPoint.pop();
-            }
-            levelOne();
-        }
-
-        if (Objects.equals(doors.get(userDoorChoice), "Enemy Two")) {
-
-            // setting and fight code for enemyTwo
-
-            // setting and fight code for enemyOne
-            // combat(monster damange, monster health, player cahracter)
-            boolean win = combat(7, 35, "tempName", player);
-            if (win) {
-                // key pices and other things gold n stuff
-                int coinage = 20 + randy.nextInt(10);
-                System.out.println("You got a key piece and " + coinage + " gold coins!");
-                player.addKeyPiece();
-                player.addMoney(coinage);
-                player.playerStatReset();
-
-            }
-            if (!win) {
-                System.out.println("You died.");
-                // set player paramerters back to normal (health)
-                player.playerStatReset();
-            }
-
-            // check peices to get big key
-            if (player.hasBigKey()) {
-                checkPoint.pop();
-            }
-            levelOne();
-        }
-
-        if (Objects.equals(doors.get(userDoorChoice), "Boss")) {
-
-            if (player.hasBigKey()) {
-                player.useKey();
-
-                // setting and fight code for bossOne
-
-                /*
-                 * if (keyOne && bossOne.getHp() <= 0) {
-                 * bossOne.setKeyDrop(true);
-                 * }
-                 * 
-                 * if (!bossOne.isKeyDrop()) {
-                 * levelOne();
-                 * } else {
-                 * //dialogue to move to next level
-                 * }
-                 */
-
-            } else {
-                System.out.println("You need a key to open this door.");
                 levelOne();
             }
+
+            // check peices to get big key
+            if (player.hasBigKey()) {
+                checkPoint.pop();
+            }
+        }
+
+        if (player.getKeyPieces() >= 1) {
+
+            boolean win = combat(7, 35, "Vampire", player);
+            if (win) {
+                // resets players health and potions, and awards coins for winning
+                whenPlayerWinsFightGeneralEnemy(player);
+            }
+            if (!win) {
+                System.out.println("You died.");
+                // reset player health to max and potion amount to 3
+                player.playerStatReset();
+                levelOne();
+            }
+
+            // check peices to get big key
+            if (player.hasBigKey()) {
+                checkPoint.pop();
+            }
+            
+        }
+
+        if (player.getKeyPieces() >= 2) {
+
+            //boss fight for first room
 
         }
 
@@ -329,8 +298,12 @@ public class main {
 
     }
 
+    /*
+     * return int for user making choice on which door they want to enter
+     */
     public static int getUserDoorChoice(HashMap<Integer,String> doors)
     {
+        // prints out user choices for doors
         for (int i = 1; i <= doors.size(); i++) {
             System.out.println(doors.get(i) + "(" + +i + ")");
         }
@@ -342,6 +315,7 @@ public class main {
         String doorChoice = keyboard.nextLine();
         int doorChoiceInMap = -1; //holder number for handling input exceptions
 
+        // loop used to handle input exceptions until user enters a correct door number
         while(true)
         {
             if(!doorChoice.matches("^\\d+"))
@@ -367,6 +341,19 @@ public class main {
         }
 
         return doorChoiceInMap;
+    }
+    /*
+     * Method used when player wins a fight to reset stats and award coins
+     * 
+     */
+    public static void whenPlayerWinsFightGeneralEnemy(Hero player)
+    {
+        Random randy = new Random();
+        int coinage = 20 + randy.nextInt(20);
+        System.out.println("You got a key peice and " + coinage + " gold coins!");
+        player.addKeyPiece();
+        player.addMoney(coinage);
+        player.playerStatReset();
     }
 
     public static boolean combat(int monsterDMG, int monsterHP, String monsterName, Hero player) {
@@ -491,7 +478,7 @@ public class main {
         return true;
     }
 
-   /* public static boolean bossCombat(int bossDMG, int bossHP, Hero player){
+   public static boolean bossCombat(int bossDMG, int bossHP, Hero player){
         Boss bossMan = new Boss(bossDMG, bossHP);
         Scanner combatInput = new Scanner(System.in);
         Random rand = new Random();
@@ -550,7 +537,7 @@ public class main {
         }
         return true;
     }
-    */
+    
 }
 
 
