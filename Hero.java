@@ -14,7 +14,7 @@ public class Hero{
     //set key pieces and key for unlocking dungeon door
     private int keyPieces = 0;
     //boolean used to see if player has all pieces of key necessary
-    private boolean hasKey = false;
+    private boolean bigKey = false;
     //set starting amount of gold for player
     private int moneyGold = 30;
 
@@ -91,25 +91,18 @@ public class Hero{
 
     //Key methods to interact with
     public void addKeyPiece(){
-        if(keyPieces == 2){
-            hasKey = true;
-            System.out.println("You have made a Key from the Key peices!");
-        }
-        else if(keyPieces < 2){
-            keyPieces++;
-        }
+        this.keyPieces += 1;
     }
     public int getKeyPieces(){
         return keyPieces;
     }
-    public void useKey(){
-        if(hasKey){
-            keyPieces = 0;
-            hasKey = false;
-        }
+    //getters and setters for key logic for doors
+    public boolean getBigKey(){
+        return bigKey;
     }
-    public boolean hasBigKey(){
-        return hasKey;
+
+    public void setBigKey(boolean hasKey){
+        this.bigKey = hasKey;
     }
     //add and spend money
     public void addMoney(int coinGained){

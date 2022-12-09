@@ -21,6 +21,7 @@ public class main {
         checkPoint.push(4);
 
         rooms();
+        home();
         levelOne();
         levelTwo();
         levelThree();
@@ -55,46 +56,58 @@ public class main {
 
     }
 
-    public void levelOne() {
-
+    public void home() {
         System.out.println("");
 
         // method used to output proper door choices for user and handle input exceptions in all cases
         int userDoorChoice = getUserDoorChoice(doors);
-        
-        //the first fight in level one
-        if (Objects.equals(doors.get(userDoorChoice), "Enemy One")) {
 
-            // setting and fight code for enemyOne
-            // combat(monster damange, monster health, player cahracter)
-            boolean win = combat(5, 30, "Goblin", player);
-            
-            if (win) {
-                // resets players health and potions, and awards coins for winning 
-                whenPlayerWinsFightGeneralEnemy(player);
-            }
-            if (!win) {
-                System.out.println("You died.");
-                // reset player health to max and potion amount to 3
-                player.playerStatReset();
-                levelOne();
-            }
-
-            // check peices to get big key
-            if (player.hasBigKey()) {
-                checkPoint.pop();
-            }
+        if (Objects.equals(doors.get(userDoorChoice), "Enemy One")){
+            levelOne();
         }
+
+        if (Objects.equals(doors.get(userDoorChoice), "Enemy Two")){
+            levelTwo();
+        }
+
+        if (Objects.equals(doors.get(userDoorChoice), "Boss")){
+            levelThree();
+        }
+    }
+
+    public void levelOne() {
+        // story
+
+
+        // combat(monster damange, monster health, player cahracter)
+        boolean level1Enemy1 = combat(5, 30, "Goblin", player);
+        
+        if (level1Enemy1) { //for a win
+            // resets players health and potions, and awards coins for winning 
+            whenPlayerWinsFightGeneralEnemy(player);
+        }
+        if (!level1Enemy1) {
+            System.out.println("You died.");
+            // reset player health to max and potion amount to 3
+            player.playerStatReset();
+            levelOne();
+        }
+
+        // check peices to get big key
+        if (player.getBigKey()) {
+            checkPoint.pop();
+        }
+        
 
         //the second fight in level one
         if (player.getKeyPieces() >= 1) {
 
-            boolean win = combat(7, 35, "Vampire", player);
-            if (win) {
+            boolean level1Enemy2 = combat(7, 35, "Vampire", player);
+            if (level1Enemy2) {
                 // resets players health and potions, and awards coins for winning
                 whenPlayerWinsFightGeneralEnemy(player);
             }
-            if (!win) {
+            if (!level1Enemy2) {
                 System.out.println("You died.");
                 // reset player health to max and potion amount to 3
                 player.playerStatReset();
@@ -102,7 +115,7 @@ public class main {
             }
 
             // check peices to get big key
-            if (player.hasBigKey()) {
+            if (player.getBigKey()) {
                 checkPoint.pop();
             }
             
@@ -112,12 +125,93 @@ public class main {
         if (player.getKeyPieces() >= 2) {
 
             //boss fight for first room
-            boolean win = bossCombat("Boss1", 100, 15, player);
-            if (win) {
+            boolean level1Boss = bossCombat("Boss1", 100, 15, player);
+            if (level1Boss) {
                 // resets players health and potions, and awards coins for winning
                 whenPlayerWinsFightGeneralEnemy(player);
             }
-            if (!win) {
+            if (!level1Boss) {
+                System.out.println("You died.");
+                // reset player health to max and potion amount to 3
+                player.playerStatReset();
+                levelOne();
+            }
+
+            // check peices to get big key
+            if (player.getKeyPieces() >= 3) {
+                home();
+            }
+
+        }
+
+    }
+
+    public void levelTwo() {
+
+        System.out.println("");
+
+        if(player.getKeyPieces() < 3)
+        {
+            System.out.println("You need half of the master key (3 pieces) to enter this door");
+            home();
+        }
+
+        System.out.println("Reached level 2"); //remove later
+
+        // setting and fight code for enemyOne
+        // combat(monster damange, monster health, player cahracter)
+        boolean level2Enemy1 = combat(5, 30, "Goblin", player);
+        
+        if (level2Enemy1) {
+            // resets players health and potions, and awards coins for winning 
+            whenPlayerWinsFightGeneralEnemy(player);
+        }
+        if (!level2Enemy1) {
+            System.out.println("You died.");
+            // reset player health to max and potion amount to 3
+            player.playerStatReset();
+            levelOne();
+        }
+
+        // check peices to get big key
+        if (player.getBigKey()) {
+            checkPoint.pop();
+        }
+
+
+        //the second fight in level one
+        if (player.getKeyPieces() >= 1) {
+
+            boolean level2Enemy2 = combat(7, 35, "Vampire", player);
+            if (level2Enemy2) {
+                // resets players health and potions, and awards coins for winning
+                whenPlayerWinsFightGeneralEnemy(player);
+            }
+            if (!level2Enemy2) {
+                System.out.println("You died.");
+                // reset player health to max and potion amount to 3
+                player.playerStatReset();
+                levelOne();
+            }
+
+            // check peices to get big key
+            if (player.getBigKey()) {
+                checkPoint.pop();
+            }
+            
+        }
+
+        //the level one boss fight
+        if (player.getKeyPieces() >= 2) {
+
+            //boss fight for first room
+            boolean level2Boss = bossCombat("Boss1", 100, 15, player);
+            if (level2Boss) {
+                // resets players health and potions, and awards coins for winning
+                whenPlayerWinsFightGeneralEnemy(player);
+                doors.remove(2);
+            }
+            if (!level2Boss) {
                 System.out.println("You died.");
                 // reset player health to max and potion amount to 3
                 player.playerStatReset();
@@ -133,185 +227,31 @@ public class main {
 
     }
 
-    public void levelTwo() {
-
-        System.out.println("");
-
-        System.out.println("reached level 2");
-
-        // method used to output proper door choices for user and handle input exceptions in all cases
-        int userDoorChoice = getUserDoorChoice(doors);
-
-        if (Objects.equals(doors.get(doorChoice), "Enemy One")) {
-
-            // setting and fight code for enemyOne
-            boolean win = combat(10, 45, "tempName", player);
-            if (win) {
-                // key pices and other things gold n stuff
-                int coinage = 20 + randy.nextInt(10);
-                System.out.println("You got a key piece and " + coinage + " gold coins!");
-                player.addKeyPiece();
-                player.addMoney(coinage);
-                player.playerStatReset();
-
-            }
-            if (!win) {
-                System.out.println("You died.");
-                // set player paramerters back to normal (health)
-                player.playerStatReset();
-            }
-
-            // check peices to get big key
-            if (player.hasBigKey()) {
-                checkPoint.pop();
-            }
-            levelTwo();
-        }
-
-        if (Objects.equals(doors.get(doorChoice), "Enemy Two")) {
-
-            // setting and fight code for enemyOne
-            boolean win = combat(12, 45, "tempName", player);
-            if (win) {
-                // key pices and other things gold n stuff
-                int coinage = 20 + randy.nextInt(10);
-                System.out.println("You got a key piece and " + coinage + " gold coins!");
-                player.addKeyPiece();
-                player.addMoney(coinage);
-                player.playerStatReset();
-
-            }
-            if (!win) {
-                System.out.println("You died.");
-                // set player paramerters back to normal (health)
-                player.playerStatReset();
-            }
-
-            // check peices to get big key
-            if (player.hasBigKey()) {
-                checkPoint.pop();
-            }
-            levelTwo();
-        }
-
-        /*
-         * if (Objects.equals(doors.get(doorChoice), "Boss")) {
-         * 
-         * if (inventory.contains("Key Two")) {
-         * 
-         * //setting and fight code for bossTwo
-         * 
-         * if (keyTwo && bossTwo.getHp() <= 0) {
-         * bossTwo.setKeyDrop(true);
-         * }
-         * 
-         * if (!bossTwo.isKeyDrop()) {
-         * System.out.println("You died.");
-         * levelTwo();
-         * } else {
-         * //dialogue to move to next level
-         * }
-         * 
-         * } else {
-         * System.out.println("You need a key to open this door.");
-         * levelTwo();
-         * }
-         * 
-         * }
-         */
-
-    }
-
     public void levelThree() {
 
-        for (Integer levelThreeDoor : levelThreeDoors) {
-            System.out.print(doors.get(levelThreeDoor) + "   ");
+        if(player.getBigKey() == false)
+        {
+            System.out.println("This door is locked. You must find the 6 pieces of the key.");
+            home();
         }
 
-        System.out.println("\n");
+        System.out.println("Reached final boss level"); // remove later
 
-        System.out.println("Choose a door: ");
-        Scanner keyboard = new Scanner(System.in);
-        int doorChoice = keyboard.nextInt();
-
-        if (Objects.equals(doors.get(doorChoice), "Enemy One")) {
-
-            // setting and fight code for enemyOne
-            boolean win = combat(15, 50, "tempName", player);
-            if (win) {
-                // key pices and other things gold n stuff
-                int coinage = 20 + randy.nextInt(10);
-                System.out.println("You got a key peice and " + coinage + " gold coins!");
-                player.addKeyPiece();
-                player.addMoney(coinage);
-                player.playerStatReset();
-
-            }
-            if (!win) {
-                System.out.println("You died.");
-                // set player paramerters back to normal (health)
-                player.playerStatReset();
-            }
-
-            // check peices to get big key
-            if (player.hasBigKey()) {
-                checkPoint.pop();
-            }
-            levelThree();
+        //boss fight for first room
+        boolean finalBoss = bossCombat("Boss1", 100, 15, player);
+        if (finalBoss) {
+            // resets players health and potions, and awards coins for winning
+            whenPlayerWinsFightGeneralEnemy(player);
+            doors.remove(2);
+        }
+        if (!finalBoss) {
+            System.out.println("You died.");
+            // reset player health to max and potion amount to 3
+            player.playerStatReset();
+            levelOne();
         }
 
-        if (Objects.equals(doors.get(doorChoice), "Enemy Two")) {
-
-            // setting and fight code for enemyOne
-            boolean win = combat(17, 55, "tempName", player);
-            if (win) {
-                // key pices and other things gold n stuff
-                int coinage = 20 + randy.nextInt(10);
-                System.out.println("You got a key peice and " + coinage + " gold coins!");
-                player.addKeyPiece();
-                player.addMoney(coinage);
-                player.playerStatReset();
-
-            }
-            if (!win) {
-                System.out.println("You died.");
-                // set player paramerters back to normal (health)
-                player.playerStatReset();
-            }
-
-            // check peices to get big key
-            if (player.hasBigKey()) {
-                checkPoint.pop();
-            }
-            levelThree();
-        }
-
-        /*
-         * if (Objects.equals(doors.get(doorChoice), "Boss")) {
-         * 
-         * if (inventory.contains("Key Three")) {
-         * 
-         * //setting and fight code for bossThree
-         * 
-         * if (keyThree && bossThree.getHp() <= 0) {
-         * bossThree.setKeyDrop(true);
-         * }
-         * 
-         * if (!bossThree.isKeyDrop()) {
-         * System.out.println("You died.");
-         * levelThree();
-         * } else {
-         * //dialogue to end game
-         * }
-         * 
-         * } else {
-         * System.out.println("You need a key to open this door.");
-         * levelThree();
-         * }
-         * 
-         * }
-         */
-
+        
     }
 
     /*
