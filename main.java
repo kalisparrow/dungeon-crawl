@@ -9,7 +9,7 @@ public class main {
     public ArrayList<Integer> levelThreeDoors = new ArrayList<Integer>();
 
     //create player charater object
-    Hero player = new Hero(50);
+    Hero player = new Hero(65);
     //random number genrator for random money drop
     Random randy = new Random();
 
@@ -70,7 +70,8 @@ public class main {
         if (Objects.equals(doors.get(doorChoice), "Enemy One")) {
 
             //setting and fight code for enemyOne
-            boolean win = method();
+            //combat(monster damange, monster health, player cahracter)
+            boolean win = combat(5, 30, player);
             if(win){
                 //key pices and other things gold n stuff
                 int coinage = 20 + randy.nextInt(10);
@@ -97,7 +98,8 @@ public class main {
             //setting and fight code for enemyTwo
 
             //setting and fight code for enemyOne
-            boolean win = method();
+            //combat(monster damange, monster health, player cahracter)
+            boolean win = combat(7, 35, player);
             if(win){
                 //key pices and other things gold n stuff
                 int coinage = 20 + randy.nextInt(10);
@@ -121,7 +123,8 @@ public class main {
 
         if (Objects.equals(doors.get(doorChoice), "Boss")) {
 
-            if (inventory.contains("Key One")) {
+            if (player.hasBigKey()) {
+                player.useKey();
 
                 //setting and fight code for bossOne
 
@@ -159,7 +162,7 @@ public class main {
         if (Objects.equals(doors.get(doorChoice), "Enemy One")) {
 
             //setting and fight code for enemyOne
-            boolean win = method();
+            boolean win = combat(10, 45, player);
             if(win){
                 //key pices and other things gold n stuff
                 int coinage = 20 + randy.nextInt(10);
@@ -184,7 +187,7 @@ public class main {
         if (Objects.equals(doors.get(doorChoice), "Enemy Two")) {
 
             //setting and fight code for enemyOne
-            boolean win = method();
+            boolean win = combat(12, 45, player);
             if(win){
                 //key pices and other things gold n stuff
                 int coinage = 20 + randy.nextInt(10);
@@ -247,7 +250,7 @@ public class main {
         if (Objects.equals(doors.get(doorChoice), "Enemy One")) {
 
             //setting and fight code for enemyOne
-            boolean win = method();
+            boolean win = combat(15, 50, player);
             if(win){
                 //key pices and other things gold n stuff
                 int coinage = 20 + randy.nextInt(10);
@@ -272,7 +275,7 @@ public class main {
         if (Objects.equals(doors.get(doorChoice), "Enemy Two")) {
 
             //setting and fight code for enemyOne
-            boolean win = method();
+            boolean win = combat(17, 55, player);
             if(win){
                 //key pices and other things gold n stuff
                 int coinage = 20 + randy.nextInt(10);
@@ -320,10 +323,12 @@ public class main {
 
     }
 
-    public static boolean combat(Enemy monster, Hero player){
+    public static boolean combat(int monsterDMG, int moneterHP, Hero player){
+        Enemy monster = new Enemy(monsterDMG, moneterHP);
         while(monster.getMonsterHP() > 0){
             //text before the fight
 			System.out.println("");
+            Scanner scan = new Scanner(System.in);
             /*scan the line to determine player input and react from that input
             b = use bow to damage enemy
             s = use sword to damage enemy
@@ -372,14 +377,14 @@ public class main {
 			player.setHeroHP(player.getHeroHP() - damageTAKEN);
 			System.out.println("Player HP:" + player.getHeroHP());
 
-			if(monster1HP<=0)//monster death notification
+			if(monster.getMonsterHP() <= 0)//monster death notification
 			{
 				System.out.println("You defeated the monster!");
 				break;
 			}
         }
-        if(player.getHeroHP <= 0)
-            return flase;
+        if(player.getHeroHP() <= 0)
+            return false;
         return true;
     }
 
