@@ -6,25 +6,24 @@ public class Hero{
     private int bowDMG = bowBase - randy.nextInt(15);
     //set HP
     private int heroHP;
-    private int fullHP = heroHP;
-    //set damage
+    private int maxHP = 100;
+    //set sword damage
     private int swordDMG = 15;
-    /*set block stance
-    Blocking has not been integrated as there was 
-    no proper way to do so that would be fun for
-    the player. 
-    private boolean blocking = false;
-    */
     //set heals
-    private int healing = 3;
-    //set key perices and key for unlocking dungeon door
+    private int healthPotions = 3;
+    //set key pieces and key for unlocking dungeon door
     private int keyPieces = 0;
     private boolean hasKey= false;
     //set starting amount of gold for player
     private int moneyGold = 30;
 
-    Hero(int heroHP){
-        this.heroHP = heroHP;
+    Hero(){
+        this.heroHP = 100;
+    }
+
+    public void playerStatReset() {
+        this.setHeroHP(this.getMaxHP());
+        this.sethealthPotions();
     }
 
     public int getBowBase() {
@@ -41,20 +40,43 @@ public class Hero{
 		return bowDMG;
 	}
 
-    //Bow damage is calcualted and does not need a setter. This should also prevent bugs.
-	// public void setBowDMG(int bowDMG) {
-	// 	this.bowDMG = bowDMG;
-	// }
-
-
 	public int getHeroHP() {
 		return heroHP;
 	}
 
-
-	public void setHeroHP(int heroHP) {
+    public void setHeroHP(int heroHP) {
 		this.heroHP = heroHP;
 	}
+
+    public int getMaxHP()
+    {
+        return this.maxHP;
+    }
+
+    public int gethealthPotions() {
+		return healthPotions;
+	}
+
+    public void sethealthPotions() {
+		this.healthPotions = 3;
+	}
+
+    // method to heal player, capping health at 100 and incrementing potions held negatively
+    public void useHealing() {
+        this.setHeroHP(this.getHeroHP() + 20); 
+        
+        if(this.getHeroHP() > this.getMaxHP())
+        {
+            this.setHeroHP(100);
+        }
+        
+        healthPotions--;
+
+        System.out.println("Your player health is now " + this.getHeroHP() + ".");
+
+        System.out.println("You have " + healthPotions + " left!");
+        
+    }
 
 
 	public int getSwordDMG() {
@@ -66,41 +88,6 @@ public class Hero{
 		this.swordDMG = swordDMG;
 	}
 
-    /* 
-	public boolean isBlocking() {
-		return blocking;
-	}
-
-
-	public void setBlocking(boolean blocking) {
-		this.blocking = blocking;
-	}
-   
-    //methods to calculate damage taken to player
-    public void damageRecieved(int dmgTaken){
-        if(isBlocking()){
-            setHeroHP((getHeroHP()-dmgTaken)+7);
-        }
-        else
-            setHeroHP(getHeroHP()-dmgTaken);
-    }
-     */
-    //methods for healing incombat
-    public int getHealing(){
-        return healing;
-    }
-    public void addHealing() {
-        healing++;
-    }
-
-    public void useHealing() {
-        heroHP = fullHP;
-        healing--;
-    }
-
-    public int getMaxHP(){
-        return fullHP;
-    }
     //Key methods to interact with
     public void addKeyPiece(){
         if(keyPieces == 2){

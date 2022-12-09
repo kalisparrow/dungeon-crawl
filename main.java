@@ -9,7 +9,7 @@ public class main {
     public ArrayList<Integer> levelThreeDoors = new ArrayList<Integer>();
 
     // create player charater object
-    Hero player = new Hero(65);
+    Hero player = new Hero();
     // random number genrator for random money drop
     Random randy = new Random();
 
@@ -57,6 +57,8 @@ public class main {
 
     public void levelOne() {
 
+        System.out.println("");
+
         for (int i = 1; i <= 3; i++) {
             System.out.println(doors.get(i) + "(" + +i + ")");
         }
@@ -66,6 +68,10 @@ public class main {
         System.out.println("Choose a door: ");
         Scanner keyboard = new Scanner(System.in);
         int doorChoice = keyboard.nextInt();
+
+        if(!(doorChoice == 1 || doorChoice == 2 || doorChoice == 3)){
+            System.out.println("Incorrect input: try again");
+        }
 
         if (Objects.equals(doors.get(doorChoice), "Enemy One")) {
 
@@ -78,12 +84,13 @@ public class main {
                 System.out.println("You got a key piece and " + coinage + " gold coins!");
                 player.addKeyPiece();
                 player.addMoney(coinage);
+                player.playerStatReset();
 
             }
             if (!win) {
                 System.out.println("You died.");
                 // set player paramerters back to normal (health)
-                player.setHeroHP(player.getMaxHP());
+                player.playerStatReset();
             }
 
             // check peices to get big key
@@ -106,12 +113,13 @@ public class main {
                 System.out.println("You got a key piece and " + coinage + " gold coins!");
                 player.addKeyPiece();
                 player.addMoney(coinage);
+                player.playerStatReset();
 
             }
             if (!win) {
                 System.out.println("You died.");
                 // set player paramerters back to normal (health)
-                player.setHeroHP(player.getMaxHP());
+                player.playerStatReset();
             }
 
             // check peices to get big key
@@ -171,12 +179,13 @@ public class main {
                 System.out.println("You got a key piece and " + coinage + " gold coins!");
                 player.addKeyPiece();
                 player.addMoney(coinage);
+                player.playerStatReset();
 
             }
             if (!win) {
                 System.out.println("You died.");
                 // set player paramerters back to normal (health)
-                player.setHeroHP(player.getMaxHP());
+                player.playerStatReset();
             }
 
             // check peices to get big key
@@ -196,12 +205,13 @@ public class main {
                 System.out.println("You got a key piece and " + coinage + " gold coins!");
                 player.addKeyPiece();
                 player.addMoney(coinage);
+                player.playerStatReset();
 
             }
             if (!win) {
                 System.out.println("You died.");
                 // set player paramerters back to normal (health)
-                player.setHeroHP(player.getMaxHP());
+                player.playerStatReset();
             }
 
             // check peices to get big key
@@ -261,12 +271,13 @@ public class main {
                 System.out.println("You got a key peice and " + coinage + " gold coins!");
                 player.addKeyPiece();
                 player.addMoney(coinage);
+                player.playerStatReset();
 
             }
             if (!win) {
                 System.out.println("You died.");
                 // set player paramerters back to normal (health)
-                player.setHeroHP(player.getMaxHP());
+                player.playerStatReset();
             }
 
             // check peices to get big key
@@ -286,12 +297,13 @@ public class main {
                 System.out.println("You got a key peice and " + coinage + " gold coins!");
                 player.addKeyPiece();
                 player.addMoney(coinage);
+                player.playerStatReset();
 
             }
             if (!win) {
                 System.out.println("You died.");
                 // set player paramerters back to normal (health)
-                player.setHeroHP(player.getMaxHP());
+                player.playerStatReset();
             }
 
             // check peices to get big key
@@ -360,6 +372,12 @@ public class main {
             if (combatInput.equals("s") || combatInput.equals("S")) {
                 System.out.println("You attack the monster dealing " + player.getSwordDMG() + " damage!");
                 monster.setMonsterHP(monster.getMonsterHP() - player.getSwordDMG());
+
+                if(monster.getMonsterHP() < 0)
+                {
+                    monster.setMonsterHP(0);
+                }
+
                 System.out.println("Monster HP remaining: " + monster.getMonsterHP());
             }
             if (combatInput.equals("b") || combatInput.equals("B")) {
@@ -368,22 +386,29 @@ public class main {
                 int damageOUT = player.getBowDMG();
                 System.out.println("You attack the monster dealing " + damageOUT + " damage!");
                 monster.setMonsterHP(monster.getMonsterHP() - damageOUT);
+
+                if(monster.getMonsterHP() < 0)
+                {
+                    monster.setMonsterHP(0);
+                }
+
                 System.out.println("Monster HP remaining: " + monster.getMonsterHP());
             }
 
             //exiting if player attack kills enemy
             if (monster.getMonsterHP() <= 0)// monster death notification
             {
-                System.out.println("You defeated the monster!");
+                System.out.println("You defeated the " + monsterName + "!");
                 break;
             }
 
             if (combatInput.equals("h") || combatInput.equals("H")) {
-                if (player.getHealing() == 0) {
+                if (player.gethealthPotions() == 0) {
                     System.out.println("You have run out of healing potions! oh no....");
-                } else if (player.getHeroHP() == player.getMaxHP()) {
+                } else if (player.getHeroHP() == 100) {
                     System.out.println("You are at full health. You can't drink any health potions.");
-                } else if (player.getHeroHP() < player.getMaxHP()) {
+                    continue;
+                } else if (player.getHeroHP() < 100) {
                     System.out.println("You drank a health potion.");
                     System.out.println("Hmmm... Tates like strawberries...");
                     System.out.println("HP fully restored!");
@@ -414,7 +439,7 @@ public class main {
             }
 
             if (enemyAttackStrength == 2) {
-                System.out.println("The " + monsterName + " makes solid contact with his weapon, and you are knocked back.");
+                System.out.println("\nThe " + monsterName + " makes solid contact with his weapon, and you are knocked back.");
                 int damageTAKEN = monster.getWeaponDMG();
                 System.out.println("You took " + damageTAKEN + " damage from the monster!");
                 player.setHeroHP(player.getHeroHP() - damageTAKEN);
@@ -422,7 +447,7 @@ public class main {
             }
 
             if (enemyAttackStrength == 3) {
-                System.out.println("The " + monsterName + " bludgeons you causing signficant damage.");
+                System.out.println("\nThe " + monsterName + " bludgeons you causing signficant damage.");
                 int damageTAKEN = monster.getWeaponDMG() + 10;
                 System.out.println("You took " + damageTAKEN + " damage from the monster!");
                 player.setHeroHP(player.getHeroHP() - damageTAKEN);
