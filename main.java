@@ -59,21 +59,9 @@ public class main {
 
         System.out.println("");
 
-        for (int i = 1; i <= 3; i++) {
-            System.out.println(doors.get(i) + "(" + +i + ")");
-        }
-
-        System.out.println("\n");
-
-        System.out.println("Choose a door: ");
-        Scanner keyboard = new Scanner(System.in);
-        int doorChoice = keyboard.nextInt();
-
-        if(!(doorChoice == 1 || doorChoice == 2 || doorChoice == 3)){
-            System.out.println("Incorrect input: try again");
-        }
-
-        if (Objects.equals(doors.get(doorChoice), "Enemy One")) {
+        int userDoorChoice = getUserDoorChoice(doors);
+        
+        if (Objects.equals(doors.get(userDoorChoice), "Enemy One")) {
 
             // setting and fight code for enemyOne
             // combat(monster damange, monster health, player cahracter)
@@ -100,7 +88,7 @@ public class main {
             levelOne();
         }
 
-        if (Objects.equals(doors.get(doorChoice), "Enemy Two")) {
+        if (Objects.equals(doors.get(userDoorChoice), "Enemy Two")) {
 
             // setting and fight code for enemyTwo
 
@@ -129,7 +117,7 @@ public class main {
             levelOne();
         }
 
-        if (Objects.equals(doors.get(doorChoice), "Boss")) {
+        if (Objects.equals(doors.get(userDoorChoice), "Boss")) {
 
             if (player.hasBigKey()) {
                 player.useKey();
@@ -341,6 +329,46 @@ public class main {
 
     }
 
+    public static int getUserDoorChoice(HashMap<Integer,String> doors)
+    {
+        for (int i = 1; i <= doors.size(); i++) {
+            System.out.println(doors.get(i) + "(" + +i + ")");
+        }
+
+        System.out.println("\n");
+
+        System.out.println("Choose a door: ");
+        Scanner keyboard = new Scanner(System.in);
+        String doorChoice = keyboard.nextLine();
+        int doorChoiceInMap = -1; //holder number for handling input exceptions
+
+        while(true)
+        {
+            if(!doorChoice.matches("^\\d+"))
+            {
+                System.out.println("Incorrect input: try again");
+
+                doorChoice = keyboard.nextLine(); 
+
+                continue;
+            }
+
+            doorChoiceInMap = Integer.valueOf(doorChoice);
+
+            if(!(doorChoiceInMap == 1 || doorChoiceInMap == 2 || doorChoiceInMap == 3)){
+                System.out.println("Incorrect input: try again");
+
+                doorChoice = keyboard.nextLine();
+
+                continue;
+            }
+
+            break;
+        }
+
+        return doorChoiceInMap;
+    }
+
     public static boolean combat(int monsterDMG, int monsterHP, String monsterName, Hero player) {
         Enemy monster = new Enemy(monsterDMG, monsterHP, monsterName);
         Random enemyAttackAdjust = new Random();
@@ -463,8 +491,6 @@ public class main {
         return true;
     }
 
-}
-
    /* public static boolean bossCombat(int bossDMG, int bossHP, Hero player){
         Boss bossMan = new Boss(bossDMG, bossHP);
         Scanner combatInput = new Scanner(System.in);
@@ -525,6 +551,7 @@ public class main {
         return true;
     }
     */
+}
 
 
 
