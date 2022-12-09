@@ -6,10 +6,10 @@ public class Boss {
     private int BASE;
     private int DMG = BASE - randy.nextInt(5);
     //set monster HP
-    private int monsterHP;
+    private int bossHP;
 
-    Boss(int BASE, int monsterHP){
-        this.monsterHP = monsterHP;
+    Boss(int BASE, int bossHP){
+        this.bossHP = bossHP;
         this.BASE = BASE;
     }
 
@@ -22,13 +22,13 @@ public class Boss {
 		this.BASE = BASE;
 	}
 
-    public int getMonsterHP() {
-		return monsterHP;
+    public int getBossHP() {
+		return bossHP;
 	}
 
 
-	public void setMonsterHP(int monsterHP) {
-		this.monsterHP = monsterHP;
+	public void setBossHP(int bossHP) {
+		this.bossHP = bossHP;
 	}
 
     public int getDMG() {

@@ -74,7 +74,7 @@ public class main {
             boolean win = combat(5, 30, player);
             if(win){
                 //key pices and other things gold n stuff
-                int coinage = 20 + randy.nextInt(10);
+                int coinage = 10 + randy.nextInt(10);
                 System.out.println("You got a key peice and " + coinage + " gold coins!");
                 player.addKeyPiece();
                 player.addMoney(coinage);
@@ -84,6 +84,7 @@ public class main {
                 System.out.println("You died.");
                 //set player paramerters back to normal (health)
                 player.setHeroHP(player.getMaxHP());
+                levelOne();
             }
             
             //check peices to get big key
@@ -102,7 +103,7 @@ public class main {
             boolean win = combat(7, 35, player);
             if(win){
                 //key pices and other things gold n stuff
-                int coinage = 20 + randy.nextInt(10);
+                int coinage = 10 + randy.nextInt(10);
                 System.out.println("You got a key peice and " + coinage + " gold coins!");
                 player.addKeyPiece();
                 player.addMoney(coinage);
@@ -112,6 +113,7 @@ public class main {
                 System.out.println("You died.");
                 //set player paramerters back to normal (health)
                 player.setHeroHP(player.getMaxHP());
+                levelOne();
             }
             
             //check peices to get big key
@@ -127,16 +129,22 @@ public class main {
                 player.useKey();
 
                 //setting and fight code for bossOne
-
-                if (keyOne && bossOne.getHp() <= 0) {
-                    bossOne.setKeyDrop(true);
+                //combat(monster damange, monster health, player cahracter)
+                boolean win = bossCombat(10, 45, player);
+                if (win) {
+                    int coinage = 20 + randy.nextInt(10);
+                    System.out.println("You got " + coinage + " gold coins!");
+                    player.addKeyPiece();
+                    player.addMoney(coinage);
                 }
 
-                if (!bossOne.isKeyDrop()) {
+                if (!win) {
+                    System.out.println("You died.");
+                    //set player paramerters back to normal (health)
+                    player.setHeroHP(player.getMaxHP());
                     levelOne();
-                } else {
-                    //dialogue to move to next level
                 }
+                    //dialogue to move to next level
 
             } else {
                 System.out.println("You need a key to open this door.");
@@ -165,7 +173,7 @@ public class main {
             boolean win = combat(10, 45, player);
             if(win){
                 //key pices and other things gold n stuff
-                int coinage = 20 + randy.nextInt(10);
+                int coinage = 25 + randy.nextInt(10);
                 System.out.println("You got a key peice and " + coinage + " gold coins!");
                 player.addKeyPiece();
                 player.addMoney(coinage);
@@ -175,6 +183,7 @@ public class main {
                 System.out.println("You died.");
                 //set player paramerters back to normal (health)
                 player.setHeroHP(player.getMaxHP());
+                levelTwo();
             }
             
             //check peices to get big key
@@ -190,7 +199,7 @@ public class main {
             boolean win = combat(12, 45, player);
             if(win){
                 //key pices and other things gold n stuff
-                int coinage = 20 + randy.nextInt(10);
+                int coinage = 25 + randy.nextInt(10);
                 System.out.println("You got a key peice and " + coinage + " gold coins!");
                 player.addKeyPiece();
                 player.addMoney(coinage);
@@ -200,6 +209,7 @@ public class main {
                 System.out.println("You died.");
                 //set player paramerters back to normal (health)
                 player.setHeroHP(player.getMaxHP());
+                levelTwo();
             }
             
             //check peices to get big key
@@ -211,28 +221,32 @@ public class main {
 
         if (Objects.equals(doors.get(doorChoice), "Boss")) {
 
-            if (inventory.contains("Key Two")) {
+            if (player.hasBigKey()) {
+                player.useKey();
 
-                //setting and fight code for bossTwo
-
-                if (keyTwo && bossTwo.getHp() <= 0) {
-                    bossTwo.setKeyDrop(true);
+                //setting and fight code for bossOne
+                //combat(monster damange, monster health, player cahracter)
+                boolean win = bossCombat(15, 50, player);
+                if (win) {
+                    int coinage = 15 + randy.nextInt(10);
+                    System.out.println("You got " + coinage + " gold coins!");
+                    player.addKeyPiece();
+                    player.addMoney(coinage);
                 }
 
-                if (!bossTwo.isKeyDrop()) {
+                if (!win) {
                     System.out.println("You died.");
+                    //set player paramerters back to normal (health)
+                    player.setHeroHP(player.getMaxHP());
                     levelTwo();
-                } else {
-                    //dialogue to move to next level
                 }
+                    //dialogue to move to next level
 
             } else {
                 System.out.println("You need a key to open this door.");
                 levelTwo();
             }
-
-        }
-
+        }   
     }
 
     public void levelThree() {
@@ -263,6 +277,7 @@ public class main {
                 System.out.println("You died.");
                 //set player paramerters back to normal (health)
                 player.setHeroHP(player.getMaxHP());
+                levelThree();
             }
             
             //check peices to get big key
@@ -288,6 +303,7 @@ public class main {
                 System.out.println("You died.");
                 //set player paramerters back to normal (health)
                 player.setHeroHP(player.getMaxHP());
+                levelThree();
             }
             
             //check peices to get big key
@@ -299,20 +315,26 @@ public class main {
 
         if (Objects.equals(doors.get(doorChoice), "Boss")) {
 
-            if (inventory.contains("Key Three")) {
+            if (player.hasBigKey()) {
+                player.useKey();
 
-                //setting and fight code for bossThree
-
-                if (keyThree && bossThree.getHp() <= 0) {
-                    bossThree.setKeyDrop(true);
+                //setting and fight code for bossOne
+                //combat(monster damange, monster health, player cahracter)
+                boolean win = bossCombat(22, 75, player);
+                if (win) {
+                    int coinage = 40 + randy.nextInt(10);
+                    System.out.println("You got " + coinage + " gold coins!");
+                    player.addKeyPiece();
+                    player.addMoney(coinage);
                 }
 
-                if (!bossThree.isKeyDrop()) {
+                if (!win) {
                     System.out.println("You died.");
+                    //set player paramerters back to normal (health)
+                    player.setHeroHP(player.getMaxHP());
                     levelThree();
-                } else {
-                    //dialogue to end game
                 }
+                    //dialogue to move to next level
 
             } else {
                 System.out.println("You need a key to open this door.");
@@ -325,9 +347,12 @@ public class main {
 
     public static boolean combat(int monsterDMG, int moneterHP, Hero player){
         Enemy monster = new Enemy(monsterDMG, moneterHP);
+        //text before the fight
+		System.out.println("");
         while(monster.getMonsterHP() > 0){
-            //text before the fight
-			System.out.println("");
+            if(player.getHeroHP() <= 0){
+                return false; 
+            }
             Scanner scan = new Scanner(System.in);
             /*scan the line to determine player input and react from that input
             b = use bow to damage enemy
@@ -377,15 +402,72 @@ public class main {
 			player.setHeroHP(player.getHeroHP() - damageTAKEN);
 			System.out.println("Player HP:" + player.getHeroHP());
 
-			if(monster.getMonsterHP() <= 0)//monster death notification
+			if(monster.getMonsterHP() <= 0)//monster death notification and end of fight
 			{
 				System.out.println("You defeated the monster!");
-				break;
+				return true;
 			}
         }
-        if(player.getHeroHP() <= 0)
-            return false;
         return true;
     }
+    public static boolean bossCombat(int bossDMG, int bossHP, Hero player){
+        Boss bossMan = new Boss(bossDMG, bossHP);
+		Scanner combatInput = new Scanner(System.in);
+		Random rand = new Random();
+		//add dragon attack counter as dragon will do a lot of damage to player
+		int dragonAttack = 3;
+		while(bossMan.getBossHP() > 0)
+		{
+            //text before a boss fight
+			System.out.println("");
+			if(combatInput.equals("s"))
+			{
+				System.out.println("You attack the eliete mosnter with your sword dealing " + player.getSwordDMG() + " damage!");
+				bossMan.setBossHP(bossMan.getBossHP() - player.getSwordDMG());
+				System.out.println("Boss HP: " + bossMan.getBossHP());
+			}
+            if(combatInput.equals("b"))
+			{
+                //get damage for player turn so that it does not 
+                //change for the HP difference and popup text
+                int damageOUT = player.getBowDMG();
+				System.out.println("You attack the eliete mosnter with your bow dealing" + damageOUT + " damage!");
+                bossMan.setBossHP(bossMan.getBossHP() - damageOUT);
+				System.out.println("Boss HP: " + bossMan.getBossHP());
+			}
+			if(combatInput.equals("h"))
+			{
+                if(player.getHealing() == 0){
+                    System.out.println("You have run out of healing potions! oh no....");
+                }
+				else if(player.getHeroHP() == player.getMaxHP())
+				{
+					System.out.println("You are at full health. You can't drink any health potions.");
+				}
+				else if(player.getHeroHP() < player.getMaxHP())
+				{
+					System.out.println("You drank a health potion.");
+					System.out.println("Hmmm... Tates like strawberries...");
+					System.out.println("HP fully restored!");
+					player.useHealing();
+				}
+			}
+			//boss attacking player
+			System.out.println("This eleite monster uses some kind of dark magic. You try to block it with your sword but you are knocked back due to the force.");
+			//get damage for player turn so that it does not 
+            //change for the HP difference and popup text
+            int damageTAKEN = bossMan.getDMG();
+			System.out.println("You took " + damageTAKEN + " damage from the eleite monster!");
+			player.setHeroHP(player.getHeroHP() - damageTAKEN);
+			System.out.println("Player HP:" + player.getHeroHP());
+
+			if(bossMan.getBossHP() <= 0)//monster death notification and end of fight
+			{
+				System.out.println("You defeated the boss monster!");
+				return true;
+			}
+		}
+        return true;
+	}
 
 }
