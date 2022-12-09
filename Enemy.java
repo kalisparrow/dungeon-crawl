@@ -6,10 +6,17 @@ public class Enemy {
     private int weaponDMG = weaponBASE + randy.nextInt(5);
     //set monster HP
     private int monsterHP;
+	String name;
 
     Enemy(int weaponBASE, int monsterHP){
         this.monsterHP = monsterHP;
         this.weaponBASE = weaponBASE;
+    }
+
+	Enemy(int weaponBASE, int monsterHP, String name){
+        this.monsterHP = monsterHP;
+        this.weaponBASE = weaponBASE;
+		this.name = name;
     }
 
     public int getWeaponBASE() {
