@@ -78,14 +78,14 @@ public class main {
     public void levelOne() {
 
         if (player.getKeyPieces() >= 3) {
-            System.out.println("Walking back inside you see the carnage left in your wake. There is nothing else to collect in here. You turn around and head back out.");
+            System.out.println("\nWalking back inside you see the carnage left in your wake. There is nothing else to collect in here. You turn around and head back out.");
             home();
         }
 
         // check pieces to get big key
         if (checkPoint.peek() == 3) {
             player.setBigKey(true);
-            System.out.println("\nThe big level one baddie is in front of you. Fight!");
+            System.out.println("\nThe big baddie is in front of you. Fight!");
         } else {
             player.setBigKey(false);
             // story
@@ -111,7 +111,7 @@ public class main {
         //the second fight in level one
         if (!player.getBigKey()) {
 
-            boolean level1Enemy2 = combat(7, 5, "Vampire", player);
+            boolean level1Enemy2 = combat(10, 5, "Vampire", player);
 
             if (level1Enemy2) {
                 // resets players health and potions, and awards coins for winning
@@ -126,7 +126,7 @@ public class main {
 
         } else {
             //boss fight for first room
-            boolean level1Boss = bossCombat("Boss1", 5, 15, player);
+            boolean level1Boss = bossCombat("Boss1", 5, 5, player);
             if (level1Boss) {
                 // resets players health and potions, and awards coins for winning
                 whenPlayerWinsFightGeneralEnemy(player);
@@ -147,97 +147,91 @@ public class main {
 
     public void levelTwo() {
 
-        System.out.println("");
-
-        if(player.getKeyPieces() < 3)
-        {
-            System.out.println("You need half of the master key (3 pieces) to enter this door");
+        if(player.getKeyPieces() < 3) {
+            System.out.println("\nThis door is locked. You need at least 3 pieces of the master key.");
             home();
         }
 
-        System.out.println("Reached level 2"); //remove later
-
-        // setting and fight code for enemyOne
-        // combat(monster damange, monster health, player cahracter)
-        boolean level2Enemy1 = combat(5, 30, "Goblin", player);
-
-        if (level2Enemy1) {
-            // resets players health and potions, and awards coins for winning 
-            whenPlayerWinsFightGeneralEnemy(player);
-        }
-        if (!level2Enemy1) {
-            System.out.println("You died.");
-            // reset player health to max and potion amount to 3
-            player.playerStatReset();
-            levelOne();
+        if (player.getKeyPieces() >= 6) {
+            System.out.println("\nWalking back inside you see the carnage left in your wake. There is nothing else to collect in here. You turn around and head back out.");
+            home();
         }
 
-        // check peices to get big key
-        if (player.getBigKey()) {
-            checkPoint.pop();
+        // check pieces to get big key
+        if (checkPoint.peek() == 3) {
+            player.setBigKey(true);
+            System.out.println("\n-Level 2 boss text- Fight!");
+        } else {
+            player.setBigKey(false);
+            // story
+            System.out.println("The metal door screeches open slowly, narrowly opening enough for you to pass.");
+            System.out.println("A monster pops out!");
         }
 
+        if (!player.getBigKey()) {
+            // combat(monster damage, monster health, player character)
+            boolean level2Enemy1 = combat(100, 100, "Level2Enemy1", player);
+
+            if (level2Enemy1) { //for a win
+                // resets players health and potions, and awards coins for winning
+                whenPlayerWinsFightGeneralEnemy(player);
+            }
+            if (!level2Enemy1) {
+                if(death()) {
+                    levelTwo();
+                }
+            }
+        }
 
         //the second fight in level one
-        if (player.getKeyPieces() >= 1) {
+        if (!player.getBigKey()) {
 
-            boolean level2Enemy2 = combat(7, 35, "Vampire", player);
+            boolean level2Enemy2 = combat(10, 25, "Vampire", player);
+
             if (level2Enemy2) {
                 // resets players health and potions, and awards coins for winning
+                checkPoint.pop();
                 whenPlayerWinsFightGeneralEnemy(player);
             }
             if (!level2Enemy2) {
-                System.out.println("You died.");
-                // reset player health to max and potion amount to 3
-                player.playerStatReset();
-                levelOne();
+                if(death()) {
+                    levelTwo();
+                }
             }
 
-            // check peices to get big key
-            if (player.getBigKey()) {
-                checkPoint.pop();
-            }
-
-        }
-
-        //the level one boss fight
-        if (player.getKeyPieces() >= 2) {
-
-            //boss fight for first room
-            boolean level2Boss = bossCombat("Boss1", 100, 15, player);
+        } else {
+            //boss fight for second room
+            boolean level2Boss = bossCombat("Boss2", 20, 25, player);
             if (level2Boss) {
                 // resets players health and potions, and awards coins for winning
                 whenPlayerWinsFightGeneralEnemy(player);
-                doors.remove(2);
+                player.setBigKey(true);
             }
             if (!level2Boss) {
-                System.out.println("You died.");
-                // reset player health to max and potion amount to 3
-                player.playerStatReset();
-                levelOne();
+                if(death()) {
+                    levelTwo();
+                }
             }
 
-            // check peices to get big key
-            if (player.getKeyPieces() >= 3) {
-                levelTwo();
+            // check pieces to get big key
+            if (player.getKeyPieces() >= 6) {
+                home();
             }
-
         }
-
     }
 
     public void levelThree() {
 
-        if(player.getBigKey() == false)
+        if(player.getKeyPieces() < 6)
         {
-            System.out.println("This door is locked. You must find the 6 pieces of the key.");
+            System.out.println("\nThis door is locked. You must find the 6 pieces of the master key.");
             home();
         }
 
         System.out.println("Reached final boss level"); // remove later
 
         //boss fight for first room
-        boolean finalBoss = bossCombat("Boss1", 100, 15, player);
+        boolean finalBoss = bossCombat("finalBoss", 100, 15, player);
         if (finalBoss) {
             // resets players health and potions, and awards coins for winning
             whenPlayerWinsFightGeneralEnemy(player);
@@ -247,14 +241,15 @@ public class main {
             System.out.println("You died.");
             // reset player health to max and potion amount to 3
             player.playerStatReset();
-            levelOne();
+            levelThree();
         }
 
 
     }
 
-    /*
-     * return int for user making choice on which door they want to enter
+    /**
+     * 
+     * 
      */
     public static int getUserDoorChoice(HashMap<Integer,String> doors)
     {

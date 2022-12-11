@@ -6,9 +6,9 @@ public class Boss {
     private int bossHP;
 	String name;
 
-    Boss(String name, int bossHP, int DMG){
-        this.bossHP = bossHP;
+    Boss(String name, int DMG, int bossHP){
         this.DMG = DMG;
+		this.bossHP = bossHP;
     }
 
     public int getDMG() {
