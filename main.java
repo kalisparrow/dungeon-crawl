@@ -30,6 +30,8 @@ public class main {
 
     public void rooms() {
 
+        System.out.println("\n-intro to the game-");
+
         doors.put(1, "A worn down wooden door with a sign above it that reads 'Not very scary'");
         doors.put(2, "A metal door with a sign above it that reads 'Kind of scary'");
         doors.put(3, "A reinforced polished steel door with a sign above it that reads 'Very scary'");
@@ -89,7 +91,8 @@ public class main {
         } else {
             player.setReachedCheckpoint(false);
             // story
-            System.out.println("The wooden door creaks open loudly, almost falling off the hinges as you push it.");
+            System.out.println("\n-add story for first encounter-");
+            System.out.println("\nThe wooden door creaks open loudly, almost falling off the hinges as you push it.");
             System.out.println("As your eyes adjust to the dimly lit room, you see a figure before you.");
         }
 
@@ -110,6 +113,7 @@ public class main {
 
         //the second fight in level one
         if (!player.getReachedCheckpoint()) {
+            System.out.println("\n-add story text for encounter 2-");
 
             boolean level1Enemy2 = combat(10, 5, "Vampire", player);
 
@@ -127,6 +131,8 @@ public class main {
 
         } else {
             //boss fight for first room
+            System.out.println("\n-add story text for boss encounter-");
+
             boolean level1Boss = bossCombat("Boss1", 10, 25, player);
             if (level1Boss) {
                 // resets players health and potions, and awards coins for winning
@@ -162,15 +168,17 @@ public class main {
         // check pieces to get big key
         if (checkPoint.peek() == 2) {
             player.setReachedCheckpoint(true);
-            System.out.println("\n-Level 2 boss text- Fight!");
+            System.out.println("\nThe big baddie is in front of you. Fight!");
         } else {
             player.setReachedCheckpoint(false);
             // story
-            System.out.println("The metal door screeches open slowly, narrowly opening enough for you to pass.");
+            System.out.println("\nThe metal door screeches open slowly, narrowly opening enough for you to pass.");
             System.out.println("A monster pops out!");
         }
 
         if (!player.getReachedCheckpoint()) {
+            System.out.println("\n-add story text for encounter 1-");
+
             // combat(monster damage, monster health, player character)
             boolean level2Enemy1 = combat(10, 10, "Level2Enemy1", player);
 
@@ -187,6 +195,7 @@ public class main {
 
         //the second fight in level one
         if (!player.getReachedCheckpoint()) {
+            System.out.println("\n-add story text for encounter 2-");
 
             boolean level2Enemy2 = combat(10, 10, "Level2Enemy2", player);
 
@@ -203,6 +212,8 @@ public class main {
             }
 
         } else {
+            System.out.println("\n-add story text for boss encounter-");
+
             //boss fight for second room
             boolean level2Boss = bossCombat("Boss2", 10, 10, player);
             if (level2Boss) {
@@ -232,10 +243,9 @@ public class main {
             home();
         }
 
-        System.out.println("Reached final boss level"); // remove later
-
+        System.out.println("\n-add story text for final boss-");
         //boss fight for first room
-        boolean finalBoss = bossCombat("finalBoss", 1000, 15, player);
+        boolean finalBoss = bossCombat("finalBoss", 10, 15, player);
         if (finalBoss) {
             // resets players health and potions, and awards coins for winning
             whenPlayerWinsFightGeneralEnemy(player);
