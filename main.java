@@ -30,7 +30,13 @@ public class main {
 
     public void rooms() {
 
-        System.out.println("\n-intro to the game-");
+        System.out.println("In a mythic land far away there was a grand kingdom, full of pleasantries and adventure. The ruler of this kingdom bore no malice towards his people and shared the wealth and prosperity of the kingdom" + 
+        " with its all of its people. That was until one day, the earth shook, causing buried evil to arise near the countryside that was entombed in the ancient mountainside. For centuries, the kingdom combatted these dark" +
+        " forces. In all the fighting the prosperity of the kingdom dwindled, and the old king's royal line grew greedy, causing a significant rise in poverty across the kingdom. However, legends say that inside this dark tomb" +
+        " lays a great fortune and the adventure to collect the magic keys and slay the evil monsters inside will claim it and return the kingdom's worth and prosperity! You, however, are a young adventure on the countryside with" +
+        " your mother. Your father was a farmer, but with the temptation of great wealth, he entered the dark dungeon to help his struggling family, never to be seen again. Your family is in jeopardy losing everything as the local" +
+        " mercenaries demand payment to protect the farm from the monsters that seep from the dungeon; money that your family does not have. So, you decide to enter the dungeon, with bow and sword in hand, and succeed where your" +
+        " father failed and save your family");
 
         doors.put(1, "A worn down wooden door with a sign above it that reads 'Not very scary'");
         doors.put(2, "A metal door with a sign above it that reads 'Kind of scary'");
