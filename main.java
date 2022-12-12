@@ -2,8 +2,8 @@
 * The Dungeon Crawl program is a text-based game where a user traverses through a dungeon fighting enemies, finding
 * the 6 needed pieces of a key to fight the final boss and escape from the dungeon wealthy
 *
-* @author  Ted Korolishin
-* @author Kali Sparrow
+* @author Ted Korolishin
+* @author Kali 
 * @author Sean Ey
 * @version 1.0
 */
@@ -39,12 +39,12 @@ public class main {
 
     public void rooms() {
 
-        System.out.println("In a mythic land far away there was a grand kingdom, full of pleasantries and adventure. The ruler of this kingdom bore no malice towards his people and shared the wealth and prosperity of the kingdom \n" + 
-        "with its all of its people. That was until one day, the earth shook, causing buried evil to arise near the countryside that was entombed in the ancient mountainside. For centuries, the kingdom combatted these dark \n" +
-        "forces. In all the fighting the prosperity of the kingdom dwindled, and the old king's royal line grew greedy, causing a significant rise in poverty across the kingdom. However, legends say that inside this dark tomb \n" +
-        "lays a great fortune and the adventure to collect the magic keys and slay the evil monsters inside will claim it and return the kingdom's worth and prosperity! You, however, are a young adventure on the countryside with \n" +
-        "your mother. Your father was a farmer, but with the temptation of great wealth, he entered the dark dungeon to help his struggling family, never to be seen again. Your family is in jeopardy losing everything as the local \n" +
-        "mercenaries demand payment to protect the farm from the monsters that seep from the dungeon; money that your family does not have. So, you decide to enter the dungeon, with bow and sword in hand, and succeed where your \n" +
+        System.out.println("\nIn a mythic land far away there was a grand kingdom, full of pleasantries and adventure. The ruler of this kingdom bore no malice towards his people and shared the wealth \n and prosperity of the kingdom with its all of its people. " + 
+        " That was until one day, the earth shook, causing buried evil to arise near the countryside that was entombed in \n the ancient mountainside. For centuries, the kingdom combatted these dark" +
+        "forces. In all the fighting the prosperity of the kingdom dwindled, and the old king's royal line grew greedy, \n causing a significant rise in poverty across the kingdom. However, legends say that inside this dark tomb" +
+        "lays a great fortune and the adventure to collect the magic keys \n and slay the evil monsters inside will claim it and return the kingdom's worth and prosperity! You, however, are a young adventure on the countryside with " +
+        "your mother. \n Your father was a farmer, but with the temptation of great wealth, he entered the dark dungeon to help his struggling family, never to be seen again. \n Your family is in jeopardy losing everything as the local " +
+        "mercenaries demand payment to protect the farm from the monsters that seep from the dungeon; money that your family does not have. \nSo, you decide to enter the dungeon, with bow and sword in hand, and succeed where your " +
         "father failed and save your family");
 
         doors.put(1, "A worn down wooden door with a sign above it that reads 'Not very scary'");
@@ -102,7 +102,6 @@ public class main {
         // check pieces to get big key
         if (checkPoint.peek() == 3) {
             player.setReachedCheckpoint(true);
-            System.out.println("\nThe big baddie is in front of you. Fight!");
         } else {
             player.setReachedCheckpoint(false);
             // story
@@ -152,7 +151,7 @@ public class main {
 
         } else {
             //boss fight for first room
-            System.out.println("As you carry on through the dungeon you approach another room. This room is larger than the previous rooms. \n" +
+            System.out.println("\nAs you carry on through the dungeon you approach another room. This room is larger than the previous rooms. \n" +
             "Several pillars are scattered near the perimeter of the room, lit with a bright orange flame \n" +
             "making it much easier to see. In the middle of the room lays a chest! Getting the treasure was far easier than you thought! Approaching \n" + 
             "the chest you think of why so many adventures have failed when it was this easy. As timing would have it and as you are feet away from the \n" +
@@ -198,7 +197,6 @@ public class main {
         // check pieces to get big key
         if (checkPoint.peek() == 2) {
             player.setReachedCheckpoint(true);
-            System.out.println("\nThe big baddie is in front of you. Fight!");
         } else {
             player.setReachedCheckpoint(false);
             // story
@@ -207,11 +205,14 @@ public class main {
         }
 
         if (!player.getReachedCheckpoint()) {
-            System.out.println("\n-add story text for encounter 1-");
+            System.out.println("\nProgressing this far down in the dungeon there is no light other than that of the enchanted flames from the torches on the walls. \n" +
+            "The walls expand some as you move down and the light from the flames fades as the darkness grows deeper down the hall. You reach into your satchel and \n" +
+            "grab your jar of glow bugs to help illuminate your way. Suddenly, a shadowy wisp sporadically moves around you in the hall, phasing through walls and \n" +
+            "circling you. It must be a wraith or some kind of phantom. Through its movement, you can see something shine in the middle of the shifting smoke.");
 
-            Enemy level2temp1 = new Enemy("level2Temp1", 16, 80);
+            Enemy wraith = new Enemy("Wraith", 16, 80);
             // combat(Enemy enemy, player character)
-            boolean level2Enemy1 = combat(level2temp1, player);
+            boolean level2Enemy1 = combat(wraith, player);
 
             if (level2Enemy1) { //for a win
                 // resets players health and potions, and awards coins for winning
@@ -226,10 +227,12 @@ public class main {
 
         //the second fight in level one
         if (!player.getReachedCheckpoint()) {
-            System.out.println("\n-add story text for encounter 2-");
+            System.out.println("\nAnother room. It is round and surrounded by grand pillars, intimidatingly lit with torches. It appears to be some kind of warriors arena. \n" +
+            "Pieces of armor start to shake and move towards the center of the room, culminating to forming a suit of armor. Once formed the armor started to move on its own, \n" +
+            "an enchanted suit of armor! Another gold piece was on the guard of its sword.");
 
-            Enemy level2temp2 = new Enemy("level2Temp2", 18, 85);
-            boolean level2Enemy2 = combat(level2temp2, player);
+            Enemy knight = new Enemy("Knight", 18, 85);
+            boolean level2Enemy2 = combat(knight, player);
 
             if (level2Enemy2) {
                 // resets players health and potions, and awards coins for winning
@@ -244,11 +247,15 @@ public class main {
             }
 
         } else {
-            System.out.println("\n-add story text for boss encounter-");
+            System.out.println("\nThe labyrinth has been tight and constricting, even with its monster rooms. This led to quite the surprise when you walked into a \n" +
+            "large underground room, covered in... dirt? Everything this far has been stone a brick. Taking a better look around you find that this room is more like a field, \n" + 
+            "with grass stretching far and wide. And onceiling were glowing shards that illuminated that whole place, much less grim that any room you have encountered thus \n" +
+            "far in the dungeon. Then the ground began the shake and tremble. Over one of the hills comes a huge minotaur bearing a menacing axe. It stops atop the hill and \n" +
+            "scapes the ground as though it is going to charge. As you ready yourself you see another golden object on the minotaur's horn.");
 
             //boss fight for second room
-            Boss level2BossTemp = new Boss("boss2", 22, 100);
-            boolean level2Boss = bossCombat(level2BossTemp, player);
+            Boss minotaur = new Boss("Minotaur", 22, 100);
+            boolean level2Boss = bossCombat(minotaur, player);
             if (level2Boss) {
                 // resets players health and potions, and awards coins for winning
                 whenPlayerWinsFightGeneralEnemy(player);
@@ -275,16 +282,24 @@ public class main {
             System.out.println("\nThis door is locked. You must find the 6 pieces of the master key.");
             home();
         }
-
-        System.out.println("\nThe metal door screeches open slowly, narrowly opening enough for you to pass.");
+        
+        System.out.println("\nThe metal door screeches open slowly, narrowly opening enough for you to pass. The room is covered in debris and dark purple flame. The air here" +
+        "is thick; it's difficult to breathe. There is a certain looming sense of doom that surrounds you. This room feels darker and more evil than any other room before. As you approach" +
+        "a throne made of obsidian you see a near skeletal corpse dawning a raggedy robe with a scythe in hand. It must be that evil dark lord, or what is left of it. A deep growl comes" +
+        "from the back of the throne. A three-headed canine beast slowly approaches you. Its eyes are blood red, lusting for death and destruction. If you want to get out alive with" +
+        "treasures of this dungeon, you will need to kill the Cerberus");
         //boss fight for final room
-        Boss finalBossTemp = new Boss("temp", 25, 120);
-        boolean finalBoss = bossCombat(finalBossTemp, player);
+        
+        Boss cerberus = new Boss("Cerberus", 25, 120);
+        boolean finalBoss = bossCombat(cerberus, player);
         if (finalBoss) {
             // resets players health and potions, and awards coins for winning
             whenPlayerWinsFightGeneralEnemy(player);
             //add text for ending
-            System.out.println("-text for ending of game-");
+            System.out.println("\nOnce the beast of evil has been killed, a door behind the throne appeared. Inside was more treasure and gold than anyone ever thought could exist.\n" + 
+            "You return home with a hoard of gold and treasures! Your mother greets you with tears of joy. \nThe wicked king was overthrown and the Kingdom was restored"+
+            " to what it once was with you as its ruler.");
+            System.out.println("Total Gold Found: " + player.getGold() + 1000);
             System.exit(0);
         }
         if (!finalBoss) {
@@ -306,7 +321,7 @@ public class main {
     {
         // prints out user choices for doors
         for (int i = 1; i <= doors.size(); i++) {
-            System.out.println(doors.get(i) + "(" + +i + ")");
+            System.out.println(doors.get(i) + " (Press " + i + ")");
         }
 
         System.out.println("\n");
@@ -606,9 +621,14 @@ public class main {
         }
     }
 
+    /**
+     * method used to conduct combat between boss level enemies and the user
+     * @param boss
+     * @param player
+     * @return
+     */
     public static boolean bossCombat(Boss boss, Hero player) {
         Scanner scan = new Scanner(System.in);
-
 
         System.out.println("\nYou have entered combat with a " + boss.getBossName() + "!" + " (Health: " + boss.getBossHP() + ")");
 

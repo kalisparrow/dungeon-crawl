@@ -97,13 +97,13 @@ public class Hero{
     public void setReachedCheckpoint(boolean reachedCheckpoint){
         this.reachedCheckpoint = reachedCheckpoint;
     }
-    
-    //add and spend money
-    public void addMoney(int coinGained){
-        moneyGold = moneyGold + coinGained;
+
+    public void addMoney(int gold) {
+        this.moneyGold += gold;
     }
-    public void spendMoney(int itemCost){
-        moneyGold = moneyGold - itemCost;
+    
+    public int getGold() {
+        return this.moneyGold;
     }
 
 }
