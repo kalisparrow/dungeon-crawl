@@ -87,6 +87,10 @@ public class Hero{
         this.keyPieces += 1;
     }
     public int getKeyPieces(){
+        if (this.keyPieces > 6) {
+            this.keyPieces = 6;
+        }
+        
         return keyPieces;
     }
     //getters and setters for key logic for doors
