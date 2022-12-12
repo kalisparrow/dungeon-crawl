@@ -1,44 +1,29 @@
 import java.util.*;
 public class Boss {
-    //bosses will have two attacks
-    //
-    Random randy = new Random();
-    private int BASE;
-    private int DMG = BASE - randy.nextInt(5);
-    //set monster HP
+    //sets original damage output for boss
+	private int DMG;
+	//sets boss health points
     private int bossHP;
+	String name;
 
-    Boss(int BASE, int bossHP){
-        this.bossHP = bossHP;
-        this.BASE = BASE;
+    Boss(String name, int DMG, int bossHP){
+        this.DMG = DMG;
+		this.bossHP = bossHP;
     }
 
-    public int getBASE() {
-		return BASE;
+    public int getDMG() {
+		return DMG;
 	}
-
-
-	public void setBASE(int BASE) {
-		this.BASE = BASE;
+	
+	public void setDMG(int DMG) {
+		this.DMG = DMG;
 	}
 
     public int getBossHP() {
 		return bossHP;
 	}
-
-
+	
 	public void setBossHP(int bossHP) {
 		this.bossHP = bossHP;
 	}
-
-    public int getDMG() {
-		return DMG;
-	}
-
-
-	public void setDMG(int DMG) {
-		this.DMG = DMG;
-	}
-
-    
 }

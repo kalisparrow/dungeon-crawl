@@ -1,9 +1,8 @@
 import java.util.*;
 public class Enemy {
-    //set monster weapon
-    Random randy = new Random();
+    //sets original weapon damage output
     private int weaponDMG;
-    //set monster HP
+    //sets enemy HP
     private int monsterHP;
 	String name;
 
