@@ -30,7 +30,13 @@ public class main {
 
     public void rooms() {
 
-        System.out.println("\n-intro to the game-");
+        System.out.println("In a mythic land far away there was a grand kingdom, full of pleasantries and adventure. The ruler of this kingdom bore no malice towards his people and shared the wealth and prosperity of the kingdom \n" + 
+        "with its all of its people. That was until one day, the earth shook, causing buried evil to arise near the countryside that was entombed in the ancient mountainside. For centuries, the kingdom combatted these dark \n" +
+        "forces. In all the fighting the prosperity of the kingdom dwindled, and the old king's royal line grew greedy, causing a significant rise in poverty across the kingdom. However, legends say that inside this dark tomb \n" +
+        "lays a great fortune and the adventure to collect the magic keys and slay the evil monsters inside will claim it and return the kingdom's worth and prosperity! You, however, are a young adventure on the countryside with \n" +
+        "your mother. Your father was a farmer, but with the temptation of great wealth, he entered the dark dungeon to help his struggling family, never to be seen again. Your family is in jeopardy losing everything as the local \n" +
+        "mercenaries demand payment to protect the farm from the monsters that seep from the dungeon; money that your family does not have. So, you decide to enter the dungeon, with bow and sword in hand, and succeed where your \n" +
+        "father failed and save your family");
 
         doors.put(1, "A worn down wooden door with a sign above it that reads 'Not very scary'");
         doors.put(2, "A metal door with a sign above it that reads 'Kind of scary'");
@@ -91,12 +97,13 @@ public class main {
         } else {
             player.setReachedCheckpoint(false);
             // story
-            System.out.println("\n-add story for first encounter-");
-            System.out.println("\nThe wooden door creaks open loudly, almost falling off the hinges as you push it.");
-            System.out.println("As your eyes adjust to the dimly lit room, you see a figure before you.");
+            System.out.println("You choose the wooden door. It creaks open loudly, almost falling off the hinges as you push it. \n" +
+            "As you enter the room it appears to be quite dark due to four torches on the wall, lit by a dark purple flame. Your eyes \n" +
+            "adjust to the dimly lit room, you see a shadowy figure, slouching before you. It turns to you slowly after hearing you enter \n" +
+            "It's a goblin and it looks like it's protecting its protecting a gold trinket.");
         }
 
-        if (!player.getReachedCheckpoint()) {
+        if (!player.getReachedCheckpoint()) {a
             // combat(monster damage, monster health, player character)
             Enemy goblin = new Enemy("Goblin", 5, 5);
             boolean level1Enemy1 = combat(goblin, player);
@@ -114,7 +121,10 @@ public class main {
 
         //the second fight in level one
         if (!player.getReachedCheckpoint()) {
-            System.out.println("\n-add story text for encounter 2-");
+            System.out.println("You come across a second room traversing through the beginning corridors of the dungeon. This room is lit much like \n" +
+            "the last however you see no figure. You walk in closer to investigate. As you look around you see if there \n" +
+            "is anything in there? Suddenly you feel a looming presence above you. As you turn a bat falls from the ceiling and in a plum of smoke \n" +
+            "turns into a man, no, a vampire. You see a golden thing around its neck. Time to show this month that it is not your blood that will be spilled");
 
             Enemy level1tempname = new Enemy("level1Enemy2", 1000, 100);
             boolean level1Enemy2 = combat(level1tempname, player);
@@ -133,9 +143,15 @@ public class main {
 
         } else {
             //boss fight for first room
-            System.out.println("\n-add story text for boss encounter-");
+            System.out.println("As you carry on through the dungeon you approach another room. This room is larger than the previous rooms. \n" +
+            "Several pillars are scattered near the perimeter of the room, lit with a bright orange flame \n" +
+            "making it much easier to see. In the middle of the room lays a chest! Getting the treasure was far easier than you thought! Approaching \n" + 
+            "the chest you think of why so many adventures have failed when it was this easy. As timing would have it and as you are feet away from the \n" +
+            "chest, you hear it grumble. You stop in your tracks and brandish your sword. On cue the chest opens up, exposing its razor sharp teeth \n" + 
+            "as spiked tentacles fly out of its mouth. A mimic! You were almost as foolish as the other adventures that were tricked by such a misleading \n" +
+            "beast. Among the chaos, you see something shiny dangling from one of the tentacles. Looks like this fake chest still has some treasure!");
 
-            boolean level1Boss = bossCombat("Boss1", 10, 25, player);
+            boolean level1Boss = bossCombat("Mimic", 10, 25, player);
             if (level1Boss) {
                 // resets players health and potions, and awards coins for winning
                 whenPlayerWinsFightGeneralEnemy(player);
@@ -174,8 +190,8 @@ public class main {
         } else {
             player.setReachedCheckpoint(false);
             // story
-            System.out.println("\nThe metal door screeches open slowly, narrowly opening enough for you to pass.");
-            System.out.println("A monster pops out!");
+            System.out.println("\nAnother door, this one is made of a slightly corroded metal. As you open the door it bears some weight to it, but its nothing you cannot manage.");
+            
         }
 
         if (!player.getReachedCheckpoint()) {
@@ -247,7 +263,7 @@ public class main {
             home();
         }
 
-        System.out.println("\n-add story text for final boss-");
+        System.out.println("\nThe metal door screeches open slowly, narrowly opening enough for you to pass.");
         //boss fight for first room
         boolean finalBoss = bossCombat("finalBoss", 10, 15, player);
         if (finalBoss) {
