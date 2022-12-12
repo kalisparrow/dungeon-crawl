@@ -1,3 +1,12 @@
+/**
+* The Dungeon Crawl program is a text-based game where a user traverses through a dungeon fighting enemies, finding
+* the 6 needed pieces of a key to fight the final boss and escape from the dungeon wealthy
+*
+* @author  Ted Korolishin
+* @author Kali Sparrow
+* @author Sean Ey
+* @version 1.0
+*/
 import java.util.*;
 
 public class main {
