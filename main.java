@@ -98,7 +98,8 @@ public class main {
 
         if (!player.getReachedCheckpoint()) {
             // combat(monster damage, monster health, player character)
-            boolean level1Enemy1 = combat(5, 5, "Goblin", player);
+            Enemy goblin = new Enemy("Goblin", 5, 5);
+            boolean level1Enemy1 = combat(goblin, player);
 
             if (level1Enemy1) { //for a win
                 // resets players health and potions, and awards coins for winning
@@ -115,7 +116,8 @@ public class main {
         if (!player.getReachedCheckpoint()) {
             System.out.println("\n-add story text for encounter 2-");
 
-            boolean level1Enemy2 = combat(10, 5, "Vampire", player);
+            Enemy level1tempname = new Enemy("level1Enemy2", 1000, 100);
+            boolean level1Enemy2 = combat(level1tempname, player);
 
             if (level1Enemy2) {
                 // resets players health and potions, and awards coins for winning
@@ -179,8 +181,9 @@ public class main {
         if (!player.getReachedCheckpoint()) {
             System.out.println("\n-add story text for encounter 1-");
 
-            // combat(monster damage, monster health, player character)
-            boolean level2Enemy1 = combat(10, 10, "Level2Enemy1", player);
+            Enemy level2temp1 = new Enemy("level2Temp1", 15, 15);
+            // combat(Enemy enemy, player character)
+            boolean level2Enemy1 = combat(level2temp1, player);
 
             if (level2Enemy1) { //for a win
                 // resets players health and potions, and awards coins for winning
@@ -197,7 +200,8 @@ public class main {
         if (!player.getReachedCheckpoint()) {
             System.out.println("\n-add story text for encounter 2-");
 
-            boolean level2Enemy2 = combat(10, 10, "Level2Enemy2", player);
+            Enemy level2temp2 = new Enemy("level2Temp1", 15, 15);
+            boolean level2Enemy2 = combat(level2temp2, player);
 
             if (level2Enemy2) {
                 // resets players health and potions, and awards coins for winning
@@ -264,8 +268,9 @@ public class main {
     }
 
     /**
-     * 
-     * 
+     * method used to get the users choice for which door to enter, handles exceptions in input
+     * @param doors
+     * @return the users choice of 1, 2, or 3
      */
     public static int getUserDoorChoice(HashMap<Integer,String> doors)
     {
@@ -308,19 +313,25 @@ public class main {
 
         return doorChoiceInMap;
     }
-    /*
-     * Method used when player wins a fight to reset stats and award coins
-     *
+    
+    /**
+     * method used to award player coins after completion of a battle, reset their health and potions
+     * , and rewards one of the six needed key pieces
+     * @param player
      */
     public static void whenPlayerWinsFightGeneralEnemy(Hero player) {
         Random randy = new Random();
         int coinage = 20 + randy.nextInt(20);
-        System.out.println("You got a key piece and " + coinage + " gold coins!");
         player.addKeyPiece();
+        System.out.println("You got a key piece " + "("+ player.getKeyPieces()+ "/6)" + " and " + coinage + " gold coins!");
         player.addMoney(coinage);
         player.playerStatReset();
     }
 
+    /**
+     * method used when a player dies in combat, will give them the option to continue or quit the game 
+     * @return boolean that determines whether the user wants to continue the game 
+     */
     public boolean death() {
         boolean contGame = false;
         String continueGame = "";
@@ -348,18 +359,32 @@ public class main {
         return contGame;
     }
 
-    public static boolean combat(int monsterDMG, int monsterHP, String monsterName, Hero player) {
-        Enemy monster = new Enemy(monsterDMG, monsterHP, monsterName);
-        Random enemyAttackAdjust = new Random();
+    /**
+     * method used for players to fight enemies and collect the 6 needed keys. method takes user input to choose an attack
+     * and uses random digits to determine the strength of the attack. enemy attack strength is determined the same way. 
+     * fight goes until one of the parameters runs out of health points
+     * @param enemy
+     * @param player
+     * @return true if the user wins the fight
+     */
+    public static boolean combat(Enemy enemy, Hero player) {
 
-        System.out.println("\nYou have entered combat with a " + monsterName + "!" + " (Health: " + monsterHP + ")");
+        Scanner scan = new Scanner(System.in);
 
-        while (monster.getMonsterHP() > 0 && player.getHeroHP() > 0) {
+        System.out.println("\nYou have entered combat with a " + enemy.getEnemyName() + "!" + " (Health: " + enemy.getEnemyHP() + ")");
+
+        while (enemy.getEnemyHP() > 0 && player.getHeroHP() > 0) {
+            //random numbers used to determine strength of user and enemy attacks
+            Random heroAttackAdjust = new Random();
+            Random enemyAttackAdjust = new Random();
+            // adjust the user and enemies damage output randomly
+            int enemyAttackStrength = enemyAttackAdjust.nextInt(4);
+            int heroAttackStrength = heroAttackAdjust.nextInt(4);
+
             System.out.println("\nChoose your move:");
             System.out.print("S = use Sword to Attack, ");
             System.out.print("B = use Bow to Attack, ");
             System.out.print("H = use a Health Potion\n");
-            Scanner scan = new Scanner(System.in);
             /*
              * scan the line to determine player input and react from that input
              * b = use bow to damage enemy
@@ -368,49 +393,32 @@ public class main {
              */
             String combatInput = scan.nextLine();
 
-            if (!(combatInput.equals("s") || combatInput.equals("S") || combatInput.equals("b")
-                    || combatInput.equals("B")
-                    || combatInput.equals("h") || combatInput.equals("H"))) {
+            if (!(combatInput.equalsIgnoreCase("S") || combatInput.equalsIgnoreCase("B") || combatInput.equalsIgnoreCase("H"))) {
                 System.out.println("Incorrect input: try again.");
                 continue;
             }
 
-            if (combatInput.equals("s") || combatInput.equals("S")) {
-                System.out.println("You attack the monster dealing " + player.getSwordDMG() + " damage!");
-                monster.setMonsterHP(monster.getMonsterHP() - player.getSwordDMG());
-
-                if(monster.getMonsterHP() < 0)
-                {
-                    monster.setMonsterHP(0);
-                }
-
-                System.out.println("Monster HP remaining: " + monster.getMonsterHP());
+            if (combatInput.equalsIgnoreCase("S")) {
+                //calls method to randomize user sword attack strength
+                determineHeroSwordAttack(player, heroAttackStrength, enemy);
             }
-            if (combatInput.equals("b") || combatInput.equals("B")) {
-                // get damage for player turn so that it does not
-                // change for the HP difference and popup text
-                int damageOUT = player.getBowDMG();
-                System.out.println("You attack the monster dealing " + damageOUT + " damage!");
-                monster.setMonsterHP(monster.getMonsterHP() - damageOUT);
-
-                if(monster.getMonsterHP() < 0)
-                {
-                    monster.setMonsterHP(0);
-                }
-
-                System.out.println("Monster HP remaining: " + monster.getMonsterHP());
+            
+            if (combatInput.equalsIgnoreCase("B")) {
+                //calls method to randomize user bow attack strength
+                determineHeroBowAttack(player, heroAttackStrength, enemy);
             }
 
             //exiting if player attack kills enemy
-            if (monster.getMonsterHP() <= 0)// monster death notification
+            if (enemy.getEnemyHP() <= 0)// monster death notification
             {
-                System.out.println("You defeated the " + monsterName + "!");
+                System.out.println("\nYou defeated the " + enemy.getEnemyName() + "!");
                 break;
             }
 
-            if (combatInput.equals("h") || combatInput.equals("H")) {
+            if (combatInput.equalsIgnoreCase("H")) {
                 if (player.gethealthPotions() == 0) {
                     System.out.println("You have run out of healing potions! oh no....");
+                    continue;
                 } else if (player.getHeroHP() == 100) {
                     System.out.println("You are at full health. You can't drink any health potions.");
                     continue;
@@ -421,44 +429,8 @@ public class main {
                     player.useHealing();
                 }
             }
-            // monster attacking player
-            // adjust the enemies damage output randomly
-            int enemyAttackStrength = enemyAttackAdjust.nextInt(4);
 
-            if (enemyAttackStrength == 0) {
-                System.out.println("\nThe " + monsterName + " missed his attack!");
-            }
-
-            if (enemyAttackStrength == 1) {
-                System.out.println("\nThe " + monsterName+ " swings its weapon with malicious intent, but you block it with your sword.");
-                int damageTAKEN = monster.getWeaponDMG() - 15;
-
-                if (damageTAKEN <= 0)
-                {
-                    damageTAKEN = 0;
-
-                }
-
-                System.out.println("You took " + damageTAKEN + " damage from the monster!");
-                player.setHeroHP(player.getHeroHP() - damageTAKEN);
-                System.out.println("Player HP remaining: " + player.getHeroHP());
-            }
-
-            if (enemyAttackStrength == 2) {
-                System.out.println("\nThe " + monsterName + " makes solid contact with his weapon, and you are knocked back.");
-                int damageTAKEN = monster.getWeaponDMG();
-                System.out.println("You took " + damageTAKEN + " damage from the monster!");
-                player.setHeroHP(player.getHeroHP() - damageTAKEN);
-                System.out.println("Player HP remaining: " + player.getHeroHP());
-            }
-
-            if (enemyAttackStrength == 3) {
-                System.out.println("\nThe " + monsterName + " bludgeons you causing signficant damage.");
-                int damageTAKEN = monster.getWeaponDMG() + 10;
-                System.out.println("You took " + damageTAKEN + " damage from the monster!");
-                player.setHeroHP(player.getHeroHP() - damageTAKEN);
-                System.out.println("Player HP remaining: " + player.getHeroHP());
-            }
+            determineEnemyAttack(enemy, enemyAttackStrength, player);
 
         }
         if (player.getHeroHP() <= 0)
@@ -467,6 +439,139 @@ public class main {
         }
 
         return true;
+    }
+
+    /**
+     * method used to determine the strength of the users sword attack and damage enemy accordingly
+     * @param player
+     * @param heroAttackStrength
+     * @param enemy
+     */
+    public static void determineHeroSwordAttack(Hero player, int heroAttackStrength, Enemy enemy) {
+        //miss attack
+        if (heroAttackStrength == 0) {
+            System.out.println("\nYou swung your sword and missed the " + enemy.getEnemyName() + "!");
+        }
+
+        //light attack
+        if (heroAttackStrength == 1) {
+            System.out.println("\nYou graze the " + enemy.getEnemyName() + " with your sword.");
+
+            enemy.setEnemyHP(enemy.getEnemyHP() - (player.getSwordDMG() - 10));
+
+            System.out.println("You did " + (player.getSwordDMG() - 10) + " damage to the enemy!");
+            System.out.println("Enemy HP remaining: " + enemy.getEnemyHP());
+        }
+
+        //normal attack
+        if (heroAttackStrength == 2) {
+            System.out.println("\nYou make solid contact with the enemies torso.");
+            
+            enemy.setEnemyHP(enemy.getEnemyHP() - player.getSwordDMG());
+
+            System.out.println("You did " + player.getSwordDMG() + " damage to the enemy!");
+            System.out.println("Enemy HP remaining: " + enemy.getEnemyHP());
+        }
+
+        //heavy attack
+        if (heroAttackStrength == 3) {
+            System.out.println("\nA severe strike to the " + enemy.getEnemyName() + "'s head with your sword!");
+
+            enemy.setEnemyHP(enemy.getEnemyHP() - (player.getSwordDMG() + 15));
+
+            System.out.println("You did " + (player.getSwordDMG() + 15) + " damage to the enemy!");
+            System.out.println("Enemy HP remaining: " + enemy.getEnemyHP());
+        }
+    }
+
+    /**
+     * method used to determine strength of users bow attack and damage enemy accordingly
+     * @param player
+     * @param heroAttackStrength
+     * @param enemy
+     */
+    public static void determineHeroBowAttack(Hero player, int heroAttackStrength, Enemy enemy) {
+        //miss attack
+        if (heroAttackStrength == 0) {
+            System.out.println("\nYou shot your bow and missed the " + enemy.getEnemyName() + "!");
+        }
+
+        //light attack
+        if (heroAttackStrength == 1) {
+            System.out.println("\nYou scratch the enemy" + enemy.getEnemyName() + " with an arrow.");
+
+            enemy.setEnemyHP(enemy.getEnemyHP() - (player.getBowDMG() - 10));
+
+            System.out.println("You did " + (player.getBowDMG() - 10) + " damage to the enemy!");
+            System.out.println("Enemy HP remaining: " + enemy.getEnemyHP());
+        }
+
+        //normal attack
+        if (heroAttackStrength == 2) {
+            System.out.println("\nYou pull back your bowstring and strike the " + enemy.getEnemyName() + ".");
+            
+            enemy.setEnemyHP(enemy.getEnemyHP() - player.getBowDMG());
+
+            System.out.println("You did " + player.getBowDMG() + " damage to the enemy!");
+            System.out.println("Enemy HP remaining: " + enemy.getEnemyHP());
+        }
+
+        //heavy attack
+        if (heroAttackStrength == 3) {
+            System.out.println("\nYou line up the shot and hit the " + enemy.getEnemyName() + " in the head!");
+
+            enemy.setEnemyHP(enemy.getEnemyHP() - (player.getSwordDMG() + 20));
+
+            System.out.println("You did " + (player.getSwordDMG() + 20) + " damage to the enemy!");
+            System.out.println("Enemy HP remaining: " + enemy.getEnemyHP());
+        }
+    }
+
+    /**
+     * method used to determine the strength of enemy attack and damage player accordingly
+     * @param enemy
+     * @param enemyAttackStrength
+     * @param player
+     */
+    public static void determineEnemyAttack(Enemy enemy, int enemyAttackStrength, Hero player) {
+        //miss
+        if (enemyAttackStrength == 0) {
+            System.out.println("\nThe " + enemy.getEnemyName() + " missed his attack!");
+        }
+
+        //light hit
+        if (enemyAttackStrength == 1) {
+            System.out.println("\nThe " + enemy.getEnemyName() + " swings its weapon with malicious intent, but you block it with your sword.");
+            int damageTAKEN = enemy.getWeaponDMG() - 15;
+
+            if (damageTAKEN <= 0)
+            {
+                damageTAKEN = 0;
+
+            }
+
+            System.out.println("You took " + damageTAKEN + " damage from the monster!");
+            player.setHeroHP(player.getHeroHP() - damageTAKEN);
+            System.out.println("Player HP remaining: " + player.getHeroHP());
+        }
+
+        //normal hit
+        if (enemyAttackStrength == 2) {
+            System.out.println("\nThe " + enemy.getEnemyName() + " makes solid contact with his weapon, and you are knocked back.");
+            int damageTAKEN = enemy.getWeaponDMG();
+            System.out.println("You took " + damageTAKEN + " damage from the monster!");
+            player.setHeroHP(player.getHeroHP() - damageTAKEN);
+            System.out.println("Player HP remaining: " + player.getHeroHP());
+        }
+
+        //strong hit
+        if (enemyAttackStrength == 3) {
+            System.out.println("\nThe " + enemy.getEnemyName() + " bludgeons you causing signficant damage.");
+            int damageTAKEN = enemy.getWeaponDMG() + 10;
+            System.out.println("You took " + damageTAKEN + " damage from the monster!");
+            player.setHeroHP(player.getHeroHP() - damageTAKEN);
+            System.out.println("Player HP remaining: " + player.getHeroHP());
+        }
     }
 
     public static boolean bossCombat(String bossName, int bossDMG, int bossHP, Hero player){
@@ -589,5 +694,4 @@ public class main {
 
         return true;
     }
-
 }

@@ -1,29 +1,31 @@
 import java.util.*;
 public class Enemy {
-    //sets original weapon damage output
     private int weaponDMG;
-    //sets enemy HP
-    private int monsterHP;
+    private int enemyHP;
 	String name;
 
-    Enemy(int weaponDMG, int monsterHP){
-        this.monsterHP = monsterHP;
+	Enemy(String name, int weaponDMG, int monsterHP){
+        this.name = name;
+		this.enemyHP = monsterHP;
         this.weaponDMG = weaponDMG;
     }
 
-	Enemy(int weaponDMG, int monsterHP, String name){
-        this.monsterHP = monsterHP;
-        this.weaponDMG = weaponDMG;
-		this.name = name;
-    }
+	public String getEnemyName() {
+		return this.name;
+	}
 
-	public int getMonsterHP() {
-		return monsterHP;
+	public int getEnemyHP() {
+		//to make sure enemy hp is never below 0
+		if(this.enemyHP < 0) {
+			this.enemyHP = 0;
+		}
+		
+		return enemyHP;
 	}
 
 
-	public void setMonsterHP(int monsterHP) {
-		this.monsterHP = monsterHP;
+	public void setEnemyHP(int monsterHP) {
+		this.enemyHP = monsterHP;
 	}
 
     public int getWeaponDMG() {
@@ -35,5 +37,4 @@ public class Enemy {
 		this.weaponDMG = weaponDMG;
 	}
 
-    
 }

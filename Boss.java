@@ -1,8 +1,6 @@
 import java.util.*;
 public class Boss {
-    //sets original damage output for boss
 	private int DMG;
-	//sets boss health points
     private int bossHP;
 	String name;
 

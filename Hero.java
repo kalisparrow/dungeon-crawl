@@ -1,14 +1,12 @@
 import java.util.*;
 public class Hero{
-    //set bow parameters. use bow base for upgrading bow from shop.
-    Random randy = new Random();
-    private int bowBase = 25;
-    private int bowDMG = bowBase - randy.nextInt(15);
     //set HP
     private int heroHP;
     private int maxHP = 100;
     //set sword damage
-    private int swordDMG = 15;
+    private int swordDMG = 20;
+    //sets bow damage
+    private int bowDMG = 15;
     //set heals
     private int healthPotions = 3;
     //set key pieces and key for unlocking dungeon door
@@ -27,23 +25,18 @@ public class Hero{
         this.sethealthPotions();
     }
 
-    public int getBowBase() {
-		return bowBase;
-	}
-
-
-	public void setBowBase(int bowBase) {
-		this.bowBase = bowBase;
-	}
-
-
-	public int getBowDMG() {
+    public int getBowDMG() {
 		return bowDMG;
 	}
 
 	public int getHeroHP() {
-		return heroHP;
-	}
+		//to make sure hero hp is never below 0
+        if(this.heroHP < 0) {
+            this.heroHP = 0;
+        }
+        
+        return heroHP;
+    }
 
     public void setHeroHP(int heroHP) {
 		this.heroHP = heroHP;
@@ -104,6 +97,7 @@ public class Hero{
     public void setReachedCheckpoint(boolean reachedCheckpoint){
         this.reachedCheckpoint = reachedCheckpoint;
     }
+    
     //add and spend money
     public void addMoney(int coinGained){
         moneyGold = moneyGold + coinGained;
