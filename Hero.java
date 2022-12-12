@@ -14,7 +14,7 @@ public class Hero{
     //set key pieces and key for unlocking dungeon door
     private int keyPieces = 0;
     //boolean used to see if player has all pieces of key necessary
-    private boolean bigKey = false;
+    private boolean reachedCheckpoint = false;
     //set starting amount of gold for player
     private int moneyGold = 30;
 
@@ -97,12 +97,12 @@ public class Hero{
         return keyPieces;
     }
     //getters and setters for key logic for doors
-    public boolean getBigKey(){
-        return bigKey;
+    public boolean getReachedCheckpoint(){
+        return reachedCheckpoint;
     }
 
-    public void setBigKey(boolean hasKey){
-        this.bigKey = hasKey;
+    public void setReachedCheckpoint(boolean reachedCheckpoint){
+        this.reachedCheckpoint = reachedCheckpoint;
     }
     //add and spend money
     public void addMoney(int coinGained){

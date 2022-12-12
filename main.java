@@ -84,16 +84,16 @@ public class main {
 
         // check pieces to get big key
         if (checkPoint.peek() == 3) {
-            player.setBigKey(true);
+            player.setReachedCheckpoint(true);
             System.out.println("\nThe big baddie is in front of you. Fight!");
         } else {
-            player.setBigKey(false);
+            player.setReachedCheckpoint(false);
             // story
             System.out.println("The wooden door creaks open loudly, almost falling off the hinges as you push it.");
             System.out.println("As your eyes adjust to the dimly lit room, you see a figure before you.");
         }
 
-        if (!player.getBigKey()) {
+        if (!player.getReachedCheckpoint()) {
             // combat(monster damage, monster health, player character)
             boolean level1Enemy1 = combat(5, 5, "Goblin", player);
 
@@ -109,7 +109,7 @@ public class main {
         }
 
         //the second fight in level one
-        if (!player.getBigKey()) {
+        if (!player.getReachedCheckpoint()) {
 
             boolean level1Enemy2 = combat(10, 5, "Vampire", player);
 
@@ -117,6 +117,7 @@ public class main {
                 // resets players health and potions, and awards coins for winning
                 checkPoint.pop();
                 whenPlayerWinsFightGeneralEnemy(player);
+                levelOne();
             }
             if (!level1Enemy2) {
                 if(death()) {
@@ -126,10 +127,11 @@ public class main {
 
         } else {
             //boss fight for first room
-            boolean level1Boss = bossCombat("Boss1", 5, 5, player);
+            boolean level1Boss = bossCombat("Boss1", 10, 25, player);
             if (level1Boss) {
                 // resets players health and potions, and awards coins for winning
                 whenPlayerWinsFightGeneralEnemy(player);
+                home();
             }
             if (!level1Boss) {
                 if(death()) {
@@ -158,19 +160,19 @@ public class main {
         }
 
         // check pieces to get big key
-        if (checkPoint.peek() == 3) {
-            player.setBigKey(true);
+        if (checkPoint.peek() == 2) {
+            player.setReachedCheckpoint(true);
             System.out.println("\n-Level 2 boss text- Fight!");
         } else {
-            player.setBigKey(false);
+            player.setReachedCheckpoint(false);
             // story
             System.out.println("The metal door screeches open slowly, narrowly opening enough for you to pass.");
             System.out.println("A monster pops out!");
         }
 
-        if (!player.getBigKey()) {
+        if (!player.getReachedCheckpoint()) {
             // combat(monster damage, monster health, player character)
-            boolean level2Enemy1 = combat(100, 100, "Level2Enemy1", player);
+            boolean level2Enemy1 = combat(10, 10, "Level2Enemy1", player);
 
             if (level2Enemy1) { //for a win
                 // resets players health and potions, and awards coins for winning
@@ -184,14 +186,15 @@ public class main {
         }
 
         //the second fight in level one
-        if (!player.getBigKey()) {
+        if (!player.getReachedCheckpoint()) {
 
-            boolean level2Enemy2 = combat(10, 25, "Vampire", player);
+            boolean level2Enemy2 = combat(10, 10, "Level2Enemy2", player);
 
             if (level2Enemy2) {
                 // resets players health and potions, and awards coins for winning
                 checkPoint.pop();
                 whenPlayerWinsFightGeneralEnemy(player);
+                levelTwo();
             }
             if (!level2Enemy2) {
                 if(death()) {
@@ -201,11 +204,12 @@ public class main {
 
         } else {
             //boss fight for second room
-            boolean level2Boss = bossCombat("Boss2", 20, 25, player);
+            boolean level2Boss = bossCombat("Boss2", 10, 10, player);
             if (level2Boss) {
                 // resets players health and potions, and awards coins for winning
                 whenPlayerWinsFightGeneralEnemy(player);
-                player.setBigKey(true);
+                player.setReachedCheckpoint(true);
+                home();
             }
             if (!level2Boss) {
                 if(death()) {
@@ -231,11 +235,13 @@ public class main {
         System.out.println("Reached final boss level"); // remove later
 
         //boss fight for first room
-        boolean finalBoss = bossCombat("finalBoss", 100, 15, player);
+        boolean finalBoss = bossCombat("finalBoss", 1000, 15, player);
         if (finalBoss) {
             // resets players health and potions, and awards coins for winning
             whenPlayerWinsFightGeneralEnemy(player);
-            doors.remove(2);
+            //add text for ending
+            System.out.println("-text for ending of game-");
+            System.exit(0);
         }
         if (!finalBoss) {
             System.out.println("You died.");
