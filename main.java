@@ -97,15 +97,15 @@ public class main {
         } else {
             player.setReachedCheckpoint(false);
             // story
-            System.out.println("You choose the wooden door. It creaks open loudly, almost falling off the hinges as you push it. \n" +
+            System.out.println("\nYou choose the wooden door. It creaks open loudly, almost falling off the hinges as you push it. \n" +
             "As you enter the room it appears to be quite dark due to four torches on the wall, lit by a dark purple flame. Your eyes \n" +
             "adjust to the dimly lit room, you see a shadowy figure, slouching before you. It turns to you slowly after hearing you enter \n" +
             "It's a goblin and it looks like it's protecting its protecting a gold trinket.");
         }
 
-        if (!player.getReachedCheckpoint()) {a
+        if (!player.getReachedCheckpoint()) {
             // combat(monster damage, monster health, player character)
-            Enemy goblin = new Enemy("Goblin", 5, 5);
+            Enemy goblin = new Enemy("Goblin", 10, 30);
             boolean level1Enemy1 = combat(goblin, player);
 
             if (level1Enemy1) { //for a win
@@ -121,13 +121,13 @@ public class main {
 
         //the second fight in level one
         if (!player.getReachedCheckpoint()) {
-            System.out.println("You come across a second room traversing through the beginning corridors of the dungeon. This room is lit much like \n" +
+            System.out.println("\nYou come across a second room traversing through the beginning corridors of the dungeon. This room is lit much like \n" +
             "the last however you see no figure. You walk in closer to investigate. As you look around you see if there \n" +
             "is anything in there? Suddenly you feel a looming presence above you. As you turn a bat falls from the ceiling and in a plum of smoke \n" +
             "turns into a man, no, a vampire. You see a golden thing around its neck. Time to show this month that it is not your blood that will be spilled");
 
-            Enemy level1tempname = new Enemy("level1Enemy2", 1000, 100);
-            boolean level1Enemy2 = combat(level1tempname, player);
+            Enemy vampire = new Enemy("Vampire", 12, 40);
+            boolean level1Enemy2 = combat(vampire, player);
 
             if (level1Enemy2) {
                 // resets players health and potions, and awards coins for winning
@@ -151,7 +151,10 @@ public class main {
             "as spiked tentacles fly out of its mouth. A mimic! You were almost as foolish as the other adventures that were tricked by such a misleading \n" +
             "beast. Among the chaos, you see something shiny dangling from one of the tentacles. Looks like this fake chest still has some treasure!");
 
-            boolean level1Boss = bossCombat("Mimic", 10, 25, player);
+            //name, damage, health points, player
+            Boss mimic = new Boss("Mimic", 20, 90);
+            boolean level1Boss = bossCombat(mimic, player);
+            
             if (level1Boss) {
                 // resets players health and potions, and awards coins for winning
                 whenPlayerWinsFightGeneralEnemy(player);
@@ -197,7 +200,7 @@ public class main {
         if (!player.getReachedCheckpoint()) {
             System.out.println("\n-add story text for encounter 1-");
 
-            Enemy level2temp1 = new Enemy("level2Temp1", 15, 15);
+            Enemy level2temp1 = new Enemy("level2Temp1", 16, 80);
             // combat(Enemy enemy, player character)
             boolean level2Enemy1 = combat(level2temp1, player);
 
@@ -216,7 +219,7 @@ public class main {
         if (!player.getReachedCheckpoint()) {
             System.out.println("\n-add story text for encounter 2-");
 
-            Enemy level2temp2 = new Enemy("level2Temp1", 15, 15);
+            Enemy level2temp2 = new Enemy("level2Temp2", 18, 85);
             boolean level2Enemy2 = combat(level2temp2, player);
 
             if (level2Enemy2) {
@@ -235,7 +238,8 @@ public class main {
             System.out.println("\n-add story text for boss encounter-");
 
             //boss fight for second room
-            boolean level2Boss = bossCombat("Boss2", 10, 10, player);
+            Boss level2BossTemp = new Boss("boss2", 22, 100);
+            boolean level2Boss = bossCombat(level2BossTemp, player);
             if (level2Boss) {
                 // resets players health and potions, and awards coins for winning
                 whenPlayerWinsFightGeneralEnemy(player);
@@ -264,8 +268,9 @@ public class main {
         }
 
         System.out.println("\nThe metal door screeches open slowly, narrowly opening enough for you to pass.");
-        //boss fight for first room
-        boolean finalBoss = bossCombat("finalBoss", 10, 15, player);
+        //boss fight for final room
+        Boss finalBossTemp = new Boss("temp", 25, 120);
+        boolean finalBoss = bossCombat(finalBossTemp, player);
         if (finalBoss) {
             // resets players health and potions, and awards coins for winning
             whenPlayerWinsFightGeneralEnemy(player);
@@ -493,7 +498,7 @@ public class main {
         if (heroAttackStrength == 3) {
             System.out.println("\nA severe strike to the " + enemy.getEnemyName() + "'s head with your sword!");
 
-            enemy.setEnemyHP(enemy.getEnemyHP() - (player.getSwordDMG() + 15));
+            enemy.setEnemyHP(enemy.getEnemyHP() - (player.getSwordDMG() + 10));
 
             System.out.println("You did " + (player.getSwordDMG() + 15) + " damage to the enemy!");
             System.out.println("Enemy HP remaining: " + enemy.getEnemyHP());
@@ -552,7 +557,7 @@ public class main {
     public static void determineEnemyAttack(Enemy enemy, int enemyAttackStrength, Hero player) {
         //miss
         if (enemyAttackStrength == 0) {
-            System.out.println("\nThe " + enemy.getEnemyName() + " missed his attack!");
+            System.out.println("\nThe " + enemy.getEnemyName() + " missed their attack!");
         }
 
         //light hit
@@ -566,42 +571,50 @@ public class main {
 
             }
 
-            System.out.println("You took " + damageTAKEN + " damage from the monster!");
+            System.out.println("You took " + damageTAKEN + " damage from the enemy!");
             player.setHeroHP(player.getHeroHP() - damageTAKEN);
             System.out.println("Player HP remaining: " + player.getHeroHP());
         }
 
         //normal hit
         if (enemyAttackStrength == 2) {
-            System.out.println("\nThe " + enemy.getEnemyName() + " makes solid contact with his weapon, and you are knocked back.");
-            int damageTAKEN = enemy.getWeaponDMG();
-            System.out.println("You took " + damageTAKEN + " damage from the monster!");
-            player.setHeroHP(player.getHeroHP() - damageTAKEN);
+            System.out.println("\nThe " + enemy.getEnemyName() + " makes solid contact with their weapon, and you are knocked back.");
+
+            player.setHeroHP(player.getHeroHP() - enemy.getWeaponDMG());
+        
+            System.out.println("You took " + enemy.getWeaponDMG() + " damage from the monster!");
             System.out.println("Player HP remaining: " + player.getHeroHP());
         }
 
         //strong hit
         if (enemyAttackStrength == 3) {
             System.out.println("\nThe " + enemy.getEnemyName() + " bludgeons you causing signficant damage.");
-            int damageTAKEN = enemy.getWeaponDMG() + 10;
-            System.out.println("You took " + damageTAKEN + " damage from the monster!");
-            player.setHeroHP(player.getHeroHP() - damageTAKEN);
+
+            player.setHeroHP(player.getHeroHP() - (enemy.getWeaponDMG() + 10));
+            
+            System.out.println("You took " + (enemy.getWeaponDMG() + 10) + " damage from the monster!");
             System.out.println("Player HP remaining: " + player.getHeroHP());
         }
     }
 
-    public static boolean bossCombat(String bossName, int bossDMG, int bossHP, Hero player){
-        Boss boss = new Boss(bossName, bossDMG, bossHP);
-        Random enemyAttackAdjust = new Random();
+    public static boolean bossCombat(Boss boss, Hero player) {
+        Scanner scan = new Scanner(System.in);
 
-        System.out.println("\nYou have entered combat with a " + bossName + "!" + " (Health: " + bossHP + ")");
+
+        System.out.println("\nYou have entered combat with a " + boss.getBossName() + "!" + " (Health: " + boss.getBossHP() + ")");
 
         while (boss.getBossHP() > 0 && player.getHeroHP() > 0) {
+            //random numbers used to determine strength of user and enemy attacks
+            Random heroAttackAdjust = new Random();
+            Random bossAttackAdjust = new Random();
+            // adjust the user and enemies damage output randomly
+            int heroAttackStrength = heroAttackAdjust.nextInt(4);
+            int bossAttackStrength = bossAttackAdjust.nextInt(5);
+
             System.out.println("\nChoose your move:");
             System.out.print("S = use Sword to Attack, ");
             System.out.print("B = use Bow to Attack, ");
             System.out.print("H = use a Health Potion\n");
-            Scanner scan = new Scanner(System.in);
             /*
              * scan the line to determine player input and react from that input
              * b = use bow to damage enemy
@@ -610,49 +623,32 @@ public class main {
              */
             String combatInput = scan.nextLine();
 
-            if (!(combatInput.equals("s") || combatInput.equals("S") || combatInput.equals("b")
-                    || combatInput.equals("B")
-                    || combatInput.equals("h") || combatInput.equals("H"))) {
+            if (!(combatInput.equalsIgnoreCase("S") || combatInput.equalsIgnoreCase("B") || combatInput.equalsIgnoreCase("H"))) {
                 System.out.println("Incorrect input: try again.");
                 continue;
             }
 
-            if (combatInput.equals("s") || combatInput.equals("S")) {
-                System.out.println("You attack the monster dealing " + player.getSwordDMG() + " damage!");
-                boss.setBossHP(boss.getBossHP() - player.getSwordDMG());
-
-                if(boss.getBossHP() < 0)
-                {
-                    boss.setBossHP(0);
-                }
-
-                System.out.println("Monster HP remaining: " + boss.getBossHP());
+            if (combatInput.equalsIgnoreCase("S")) {
+                //calls method to randomize user sword attack strength
+                determineHeroSwordAttack(player, heroAttackStrength, boss);
             }
-            if (combatInput.equals("b") || combatInput.equals("B")) {
-                // get damage for player turn so that it does not
-                // change for the HP difference and popup text
-                int damageOUT = player.getBowDMG();
-                System.out.println("You attack the monster dealing " + damageOUT + " damage!");
-                boss.setBossHP(boss.getBossHP() - damageOUT);
-
-                if(boss.getBossHP() < 0)
-                {
-                    boss.setBossHP(0);
-                }
-
-                System.out.println("Monster HP remaining: " + boss.getBossHP());
+            
+            if (combatInput.equalsIgnoreCase("B")) {
+                //calls method to randomize user bow attack strength
+                determineHeroBowAttack(player, heroAttackStrength, boss);
             }
 
             //exiting if player attack kills enemy
-            if (boss.getBossHP() <= 0)// monster death notification
+            if (boss.getEnemyHP() <= 0)// monster death notification
             {
-                System.out.println("You defeated the " + bossName + "!");
+                System.out.println("\nYou defeated the " + boss.getEnemyName() + "!");
                 break;
             }
 
-            if (combatInput.equals("h") || combatInput.equals("H")) {
+            if (combatInput.equalsIgnoreCase("H")) {
                 if (player.gethealthPotions() == 0) {
                     System.out.println("You have run out of healing potions! oh no....");
+                    continue;
                 } else if (player.getHeroHP() == 100) {
                     System.out.println("You are at full health. You can't drink any health potions.");
                     continue;
@@ -663,44 +659,10 @@ public class main {
                     player.useHealing();
                 }
             }
-            // monster attacking player
-            // adjust the enemies damage output randomly
-            int enemyAttackStrength = enemyAttackAdjust.nextInt(4);
-
-            if (enemyAttackStrength == 0) {
-                System.out.println("\nThe " + bossName + " missed his attack!");
-            }
-
-            if (enemyAttackStrength == 1) {
-                System.out.println("\nThe " + bossName + " swings its weapon with malicious intent, but you block it with your sword.");
-                int damageTAKEN = boss.getDMG() - 15;
-
-                if (damageTAKEN <= 0)
-                {
-                    damageTAKEN = 0;
-
-                }
-
-                System.out.println("You took " + damageTAKEN + " damage from the monster!");
-                player.setHeroHP(player.getHeroHP() - damageTAKEN);
-                System.out.println("Player HP remaining: " + player.getHeroHP());
-            }
-
-            if (enemyAttackStrength == 2) {
-                System.out.println("\nThe " + bossName + " makes solid contact with his weapon, and you are knocked back.");
-                int damageTAKEN = boss.getDMG();
-                System.out.println("You took " + damageTAKEN + " damage from the monster!");
-                player.setHeroHP(player.getHeroHP() - damageTAKEN);
-                System.out.println("Player HP remaining: " + player.getHeroHP());
-            }
-
-            if (enemyAttackStrength == 3) {
-                System.out.println("\nThe " + bossName + " bludgeons you causing signficant damage.");
-                int damageTAKEN = boss.getDMG() + 10;
-                System.out.println("You took " + damageTAKEN + " damage from the monster!");
-                player.setHeroHP(player.getHeroHP() - damageTAKEN);
-                System.out.println("Player HP remaining: " + player.getHeroHP());
-            }
+            
+            //method called to randomized the strength of the bosses attack
+            determineBossAttack(boss, bossAttackStrength, player);
+            
 
         }
         if (player.getHeroHP() <= 0)
@@ -709,5 +671,59 @@ public class main {
         }
 
         return true;
+    }
+
+
+    /**
+     * method used to determine the strength of boss attack and damage player accordingly
+     * @param boss
+     * @param bossAttackStrength
+     * @param player
+     */
+    public static void determineBossAttack(Boss boss, int bossAttackStrength, Hero player) {
+        //miss
+        if (bossAttackStrength == 0) {
+            System.out.println("\nThe " + boss.getBossName() + " missed their attack!");
+        }
+
+        //light attack
+        if (bossAttackStrength == 1) {
+            System.out.println("\nThe " + boss.getBossName() + " clips your shoulder just barely, doing minimal damage.");
+
+            player.setHeroHP(player.getHeroHP() - (boss.getDMG() - 15));
+
+            System.out.println("You took " + (boss.getDMG() - 15) + " damage from the enemy!");
+            System.out.println("Player HP remaining: " + player.getHeroHP());
+        }
+
+        //normal attack
+        if (bossAttackStrength == 2) {
+            System.out.println("\nThe " + boss.getBossName() + " makes direct contact, but you shield yourself well.");
+
+            player.setHeroHP(player.getHeroHP() - (boss.getDMG()));
+
+            System.out.println("You took " + (boss.getDMG()) + " damage from the enemy!");
+            System.out.println("Player HP remaining: " + player.getHeroHP());
+        }
+
+        //heavy attack
+        if (bossAttackStrength == 3) {
+            System.out.println("\nIn a flash you have been struck heavily by the " + boss.getBossName() + ".");
+
+            player.setHeroHP(player.getHeroHP() - (boss.getDMG() + 10));
+
+            System.out.println("You took " + (boss.getDMG() + 10) + " damage from the enemy!");
+            System.out.println("Player HP remaining: " + player.getHeroHP());
+        }
+
+        //critcal hit
+        if (bossAttackStrength == 4) {
+            System.out.println("\nThe " + boss.getBossName() + " conducts a near lethal hit.");
+
+            player.setHeroHP(player.getHeroHP() / 2);
+
+            System.out.println("Your health points have been split in half.");
+            System.out.println("Player HP remaining: " + player.getHeroHP());
+        }
     }
 }
